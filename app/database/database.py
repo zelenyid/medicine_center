@@ -1,7 +1,7 @@
 import bson
 import abc
 from pymongo import MongoClient
-from config import DATABASE_NAME, DB_PASSWORD
+from config import DATABASE_NAME, DB_SOURCE
 
 
 # TODO: Add validation for attributes in __new__ method
@@ -20,8 +20,7 @@ class Meta(abc.ABCMeta):
 
 
 class MongoBase(abc.ABC, metaclass=Meta):
-    _client = MongoClient(
-        f'mongodb+srv://user:{DB_PASSWORD}@cluster.7pk1k.mongodb.net/{DATABASE_NAME}?retryWrites=true&w=majority')
+    _client = MongoClient(DB_SOURCE)
 
     @staticmethod
     @abc.abstractmethod
