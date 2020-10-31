@@ -1,10 +1,7 @@
 from fastapi import APIRouter
+from fastapi_jwt_auth import AuthJWT
 
 router = APIRouter()
-
-@router.post('/')
-async def auth():
-    return {"status": "ok"}
 
 
 @router.post('/refresh')
