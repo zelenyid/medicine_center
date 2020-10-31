@@ -1,7 +1,7 @@
-from app.database.patient import Patient
+from fastapi import FastAPI
+from app.api import auth, default
 
+app = FastAPI()
 
-if __name__ == '__main__':
-    print(Patient.collection_name)
-    # print(Patient.insert_obj({'name': 'name', 'phone_number': 38013213}))
-    print(Patient.get_all_objects())
+app.include_router(default.router)
+app.include_router(auth.router, prefix='/auth', tags=['auth'])
