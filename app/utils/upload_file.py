@@ -3,6 +3,8 @@ from typing import Optional
 from google.cloud import storage
 from google.cloud.exceptions import NotFound
 
+from config import JSON_KEYS_SERVICE_ACCOUNT, DISEASE_HISTORY_FILES_NAME
+
 
 class FileUploader:
     """
@@ -54,8 +56,7 @@ class FileUploader:
 
 
 if __name__ == '__main__':
-    file_uploader = FileUploader(r'E:\Projects\medicine_center\keys_service_account.json',
-                                 'disease-history-files')
+    file_uploader = FileUploader(JSON_KEYS_SERVICE_ACCOUNT, DISEASE_HISTORY_FILES_NAME)
 
     lst = file_uploader.list_blobs()
     print(lst)
