@@ -19,13 +19,13 @@ async def logout():
 
 
 @router.get('/search/{name}')
-async def logout():
+async def logout(name):
     return {"status": "ok", "msg": "logged out"}
 
-@router.post('/{user}')
-async def logout():
+@router.get('/{user}')
+async def logout(user):
     return {"status": "ok", "msg": "logged out"}
 
-@router.post('/{user}/{schedule}')
-async def logout():
+@router.get('/{user}/{schedule}')
+async def logout(user, schedule):
     return {"status": "ok", "msg": "{}'s {}".format(user, schedule)}
