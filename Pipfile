@@ -12,6 +12,7 @@ dnspython = "*"
 uvicorn = "*"
 email-validator = "*"
 google = "*"
+typing_extensions = "*"
 
 [requires]
 python_version = "3.7"
