@@ -5,7 +5,7 @@
    * git clone https://github.com/NazarKostetskiy/medicine_center
    * cd medicine_center
    * pipenv install
-   * #####Setup storage file:
+   * ##### Setup storage file:
         * <a href="https://console.cloud.google.com/cloud-resource-manager">Select or create a Cloud Platform project</a>
         * <a href="https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project">Enable billing for your project</a>
         * <a href="https://cloud.google.com/storage">Enable the Google Cloud Storage API</a>
