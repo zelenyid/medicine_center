@@ -46,11 +46,11 @@ class FileUploader:
 
         blob.download_to_filename(storage_file_name if storage_file_name else downloaded_file_name)
 
-    def list_blobs(self):
+    def list_blobs(self) -> tuple:
         """
         :return: list of blobs in the current bucket
         """
-        all_blobs = list(self.client.list_blobs(self.bucket))
+        all_blobs = tuple(self.client.list_blobs(self.bucket))
 
         return all_blobs
 
