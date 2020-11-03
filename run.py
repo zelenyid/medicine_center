@@ -1,14 +1,12 @@
-from fastapi import FastAPI
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from app.api import auth, default
+from app.main import app
 from app.storage.token_storage import Redis
 from config import JwtSettings
-
-app = FastAPI()
 
 
 @AuthJWT.load_config
@@ -18,14 +16,15 @@ def get_config():
 
 @AuthJWT.token_in_denylist_loader
 def check_if_token_in_denylist(decrypted_token):
-    jti = decrypted_token['jti']
-    # jti in redis?
-    return True
+    jti = AuthJWT().get_jti(decrypted_token)
+    print(f"jti: {jti}")
+    return app.state.redis.get_token(jti) is not None
 
 
 @app.on_event('startup')
-async def starup_event():
-    app.state.redis = await Redis().client
+async def startup_event():
+    app.state.redis = Redis()
+    await app.state.redis.client
 
 
 @app.on_event('shutdown')
