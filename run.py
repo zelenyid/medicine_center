@@ -5,7 +5,7 @@ from starlette.responses import JSONResponse
 
 from app.api import auth, default
 from app.main import app
-from app.storage.token_storage import Redis
+from app.storage.token_storage import RedisTokenStorage
 from config import JwtSettings
 
 
@@ -16,21 +16,19 @@ def get_config():
 
 @AuthJWT.token_in_denylist_loader
 def check_if_token_in_denylist(decrypted_token):
-    jti = AuthJWT().get_jti(decrypted_token)
-    print(f"jti: {jti}")
-    return app.state.redis.get_token(jti) is not None
+    jti = decrypted_token['jti']
+    in_redis = app.state.redis.get_token(jti)
+    return in_redis == RedisTokenStorage.TOKEN_VALID_STATE
 
 
 @app.on_event('startup')
-async def startup_event():
-    app.state.redis = Redis()
-    await app.state.redis.client
+def startup_event():
+    app.state.redis = RedisTokenStorage()
 
 
 @app.on_event('shutdown')
-async def shutdown_event():
+def shutdown_event():
     app.state.redis.close()
-    await app.state.redis.wait_closed()
 
 
 @app.exception_handler(AuthJWTException)
