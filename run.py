@@ -2,6 +2,7 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from starlette.requests import Request
 from starlette.responses import JSONResponse
+from starlette.staticfiles import StaticFiles
 
 from app.api import auth, default
 from app.main import app
@@ -41,3 +42,4 @@ def authjwt_exception_handler(request: Request, exc: AuthJWTException):
 
 app.include_router(default.router)
 app.include_router(auth.router, prefix='/auth', tags=['auth'])
+app.mount("/static", StaticFiles(directory="static"), name='static')

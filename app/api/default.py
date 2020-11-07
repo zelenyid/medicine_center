@@ -1,18 +1,18 @@
 from fastapi.params import Depends
 from fastapi_jwt_auth import AuthJWT
+from starlette.responses import FileResponse
 
 from app.validators.schemes.user_schemes import UserScheme
 from app.database.user import User
 from app.main import app
 from fastapi import APIRouter
 
-
 router = APIRouter()
 
 
 @router.get('/')
 def init():
-    return {"status": "ok", "msg": "init page"}
+    return FileResponse('./static/index.html')
 
 
 @router.post('/login')
