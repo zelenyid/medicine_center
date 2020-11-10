@@ -11,7 +11,13 @@ pymongo = "*"
 dnspython = "*"
 uvicorn = "*"
 email-validator = "*"
+fastapi-jwt-auth = "==0.4.0"
+pylint = "*"
+redis = "*"
+async-property = "*"
 google = "*"
+typing_extensions = "*"
+aiofiles = "*"
 
 [requires]
 python_version = "3.7"
