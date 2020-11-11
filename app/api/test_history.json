@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "author_id": 42,
+    "patient_id": 123,
+    "title": "First history",
+    "date_updated": "2018-12-19 09:26:03",
+    "date_created": "2017-12-19 09:26:03",
+    "diagnosis": "Apchhi",
+    "status": "ill",
+    "content": "Bla bla bla bla bla bla bla bla",
+    "file_name": "filename_1.pdf"
+  }
+]

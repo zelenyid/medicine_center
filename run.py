@@ -4,7 +4,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.staticfiles import StaticFiles
 
-from app.api import auth, default
+from app.api import auth, default, disease_history
 from app.main import app
 from app.storage.token_storage import RedisTokenStorage
 from config import JwtSettings
@@ -42,4 +42,5 @@ def authjwt_exception_handler(request: Request, exc: AuthJWTException):
 
 app.include_router(default.router)
 app.include_router(auth.router, prefix='/auth', tags=['auth'])
+app.include_router(disease_history.router, prefix='/history', tags=['history'])
 app.mount("/static", StaticFiles(directory="static"), name='static')

@@ -21,4 +21,3 @@ class HomePage extends StatelessWidget {
       body: Column(children: <Widget>[Text('Medecine application')]));
   }
 }
-
