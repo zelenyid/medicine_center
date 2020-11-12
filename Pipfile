@@ -18,6 +18,7 @@ async-property = "*"
 google = "*"
 typing_extensions = "*"
 aiofiles = "*"
+python-multipart = "*"
 
 [requires]
 python_version = "3.7"
