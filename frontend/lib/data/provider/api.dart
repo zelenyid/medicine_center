@@ -3,12 +3,13 @@
 
 import 'package:dio/dio.dart';
 
-const String baseUrl = 'http://127.0.0.1:5555';
+const String baseUrl = 'http://127.0.0.1:8000';
 
 enum http_method {GET, POST}
 
 class ApiClient{
-  static BaseOptions _baseOptions = BaseOptions(baseUrl: baseUrl, connectTimeout: 10);
+  static BaseOptions _baseOptions = BaseOptions(baseUrl: baseUrl, headers: {"Accept": "application/json",
+      "Content-Type": "application/json",  "Access-Control-Allow-Origin": "*"}, connectTimeout: 10, validateStatus: (status) { return status < 500; });
   final Dio _dio = Dio(_baseOptions);
 
   String _accessToken;
@@ -23,18 +24,20 @@ class ApiClient{
 
   Future login(email, password) async {
     try{
-      Response response = await _dio.post('/login', data: {'email': email, 'password': password});
+      Response response = await _dio.post('/login', data: {'email': email, 'password': password},
+    );
        if(response.statusCode==200){
+        print(response.data);
         if(response.data["result"]==true){
           final access = response.data['access_token'];
           final refresh = response.data['refresh_token'];
           if(access!=null && refresh!=null){
             this._accessToken = access;
             this._refreshToken = refresh;
+            return response;  
           }
         }
       }
-      return response;
     }
     catch(e){
       print(e);
