@@ -1,8 +1,12 @@
 import json
+import shutil
+import os
+import uuid
 
-from fastapi import APIRouter
+from fastapi import APIRouter, File, UploadFile
 
 from app.validators.schemes.user_schemes import DiseaseHistoryScheme
+from app.disease_storage.upload_file import FileUploader
 
 router = APIRouter()
 
@@ -74,3 +78,26 @@ async def delete_history(history_id: int):
     :return:
     """
     return {'msg': 'delete history'}
+
+
+@router.post("/uploadfile/")
+async def upload_file(file: UploadFile = File(...)):
+    """
+    upload file to google cloud storage
+    TODO: upload file to google cloud storage
+    :param file: file to uploading
+    :return:
+    """
+    with open(file.filename, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    new_filename = str(uuid.uuid4()) + '.' + file.filename.split('.')[-1]
+    os.renames(file.filename, new_filename)
+    shutil.move(new_filename, "app/disease_storage/")
+
+    file_uploader = FileUploader()
+    file_uploader.upload_file('app/disease_storage/'+new_filename, new_filename)
+
+    os.remove('app/disease_storage/'+new_filename)
+
+    return {"filename": new_filename}
