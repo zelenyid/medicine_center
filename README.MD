@@ -27,6 +27,6 @@
         ```JSON_KEYS_SERVICE_ACCOUNT = os.path.join(BASE_DIR, <FILE_NAME>)```
             
 ## Run server:
-   * pipenv run uvicorn main:app
+   * pipenv run uvicorn run:app
 ## DEBUG:
    * http://127.0.0.1:8000/docs
