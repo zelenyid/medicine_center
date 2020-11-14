@@ -1,7 +1,7 @@
 import json
 import shutil
-import os
 import uuid
+import os
 
 from fastapi import APIRouter, File, UploadFile
 
@@ -84,7 +84,6 @@ async def delete_history(history_id: int):
 async def upload_file(file: UploadFile = File(...)):
     """
     upload file to google cloud storage
-    TODO: upload file to google cloud storage
     :param file: file to uploading
     :return:
     """
@@ -92,7 +91,7 @@ async def upload_file(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     new_filename = str(uuid.uuid4()) + '.' + file.filename.split('.')[-1]
-    os.renames(file.filename, new_filename)
+    os.rename(file.filename, new_filename)
     shutil.move(new_filename, "app/disease_storage/")
 
     file_uploader = FileUploader()

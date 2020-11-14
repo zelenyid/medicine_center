@@ -66,6 +66,6 @@ class FileUploader:
 
 
 if __name__ == '__main__':
-    file_uploader = FileUploader(JSON_KEYS_SERVICE_ACCOUNT, DISEASE_HISTORY_FILES_NAME)
-
-    file_uploader.delete_file('78b5c209-b015-44a2-b638-d5a5dd7cb5b1.png')
+    # file_uploader = FileUploader(JSON_KEYS_SERVICE_ACCOUNT, DISEASE_HISTORY_FILES_NAME)
+    # file_uploader.download_file('212025a3-173d-4fee-af35-ad84561837db.pdf')
+    pass
