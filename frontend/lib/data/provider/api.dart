@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:medecine_app/data/utils/exceptions.dart';
 
-const String baseUrl = 'http://34.89.129.235/';
+const String baseUrl = 'http://127.0.0.1:8000/';
+// const String baseUrl = 'http://34.89.129.235/';
 
 enum http_method { GET, POST }
 

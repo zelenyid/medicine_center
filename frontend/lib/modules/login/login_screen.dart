@@ -181,7 +181,9 @@ class LoginScreen extends GetView<LoginController> {
                   ),
                 ),
               ),
-              Container(
+              Center(
+                  child: Container(
+                constraints: BoxConstraints(maxWidth: 500),
                 height: double.infinity,
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
@@ -191,6 +193,7 @@ class LoginScreen extends GetView<LoginController> {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         'Sign In',
@@ -212,7 +215,7 @@ class LoginScreen extends GetView<LoginController> {
                     ],
                   ),
                 ),
-              )
+              ))
             ],
           ),
         ),

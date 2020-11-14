@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:medecine_app/data/models/user_model.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
@@ -20,13 +21,19 @@ class LoginController extends GetxController {
       UserModel userModel = await _userRepository.login(email, password);
       if (userModel != null) {
         return userModel;
+      } else {
+        Get.snackbar(
+            'Invalid credentials', 'Please enter correct email and password');
       }
     } on NotAuthorizedException catch (e) {
       print(e.message);
       Get.snackbar('Session expired', 'Login to your account');
     } catch (e) {
-      print(e.message);
-      Get.snackbar('Error', 'Connection troubles...');
+      if (e is DioError) {
+        Get.snackbar('Error', 'Connection troubles...');
+        print('Dio Error: ${e.message}');
+      }
+      // print(e.message);
     }
   }
 }

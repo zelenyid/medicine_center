@@ -3,7 +3,7 @@ from fastapi_jwt_auth import AuthJWT
 from starlette.responses import FileResponse
 
 from app.validators.schemes.user_schemes import UserScheme
-from app.database.user import User
+from app.database.users import UsersCollection
 from app.main import app
 from fastapi import APIRouter
 
@@ -19,15 +19,16 @@ def init():
 
 @router.post('/login')
 def login(user: UserScheme, Authorize: AuthJWT = Depends()):
-    # TODO: Check user password
-    registered_user = User.get_one_obj({"email": user.email})
+    registered_user = UsersCollection.get_one_obj({"email": user.email})
     if registered_user:
-        access_token = Authorize.create_access_token(subject=registered_user['email'])
-        refresh_token = Authorize.create_refresh_token(subject=registered_user['email'])
-        if not DEBUG_LOGIN:
-            app.state.redis.save_tokens(Authorize.get_jti(access_token), Authorize.get_jti(refresh_token))
-        return {"access_token": access_token, "refresh_token": refresh_token, "result": True, 'user_id': str(registered_user['_id'])}
-    return {"result": False}
+        password_correct = UsersCollection.verify_password(user.password, registered_user['password'])
+        if password_correct:
+            access_token = Authorize.create_access_token(subject=registered_user['email'])
+            refresh_token = Authorize.create_refresh_token(subject=registered_user['email'])
+            if not DEBUG_LOGIN:
+                app.state.redis.save_tokens(Authorize.get_jti(access_token), Authorize.get_jti(refresh_token))
+            return {"access_token": access_token, "refresh_token": refresh_token, "result": True, 'user_id': str(registered_user['_id'])}
+    return {"result": False, "msg": "Invalid credentials"}
 
 
 @router.get('/logout')
@@ -43,5 +44,4 @@ async def logout(Authorize: AuthJWT = Depends()):
 def protected(Authorize: AuthJWT = Depends()):
     Authorize.jwt_required()
     current_user = Authorize.get_jwt_subject()
-    print(current_user)
     return {"status": "ok", "msg": f"current_user: {current_user}"}
