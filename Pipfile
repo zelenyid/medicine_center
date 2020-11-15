@@ -20,6 +20,9 @@ typing_extensions = "*"
 aiofiles = "*"
 passlib = {extras = ["bcrypt"],version = "*"}
 fastapi-utils = "*"
+google-cloud = "*"
+google-cloud-storage = "*"
+python-multipart = "*"
 
 [requires]
 python_version = "3.7"
