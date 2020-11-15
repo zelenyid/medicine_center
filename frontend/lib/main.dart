@@ -7,13 +7,14 @@ import 'package:medecine_app/routes.dart';
 
 import 'data/provider/api.dart';
 import 'modules/doctor/doctor_screen.dart';
+import 'modules/hospitals/hospitals_screen.dart';
 import 'modules/patient/patient_screen.dart';
 
 void main() {
   initDependencies();
   runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.Patient,
+      initialRoute: Routes.Login,
       // theme: appThemeData,
       defaultTransition: Transition.fade,
       getPages: [
@@ -29,6 +30,10 @@ void main() {
         GetPage(
           name: Routes.Doctor,
           page: () => DoctorScreen(),
+        ),
+        GetPage(
+          name: Routes.Hospitals,
+          page: () => HospitalsScreen(),
         ),
       ]));
 }
