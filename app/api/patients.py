@@ -16,7 +16,6 @@ async def get_patient_profile(user_id: str):
     :param user_id: Id of user in database
     :return: patient data
     """
-
     user_data = UsersCollection.to_json(UsersCollection.get_one_obj({'_id': ObjectId(user_id)}))
     patient_data = PatientsCollection.to_json(PatientsCollection.get_one_obj({'user_id': ObjectId(user_id)}))
 

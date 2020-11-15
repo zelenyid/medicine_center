@@ -20,7 +20,6 @@ class UsersCollection(MongoBase):
     def get_password_hash(cls, password):
         return password_context.hash(password)
 
-
 if __name__ == '__main__':
     # our test user
     # UsersCollection.insert_obj({
