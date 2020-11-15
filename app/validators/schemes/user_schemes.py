@@ -1,7 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
-from bson.objectid import ObjectId
 
 
 class UserScheme(BaseModel):

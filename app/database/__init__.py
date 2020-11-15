@@ -1,4 +1,4 @@
-from .patient import PatientCollection
-from .doctor import DoctorCollection
+from .patient import PatientsCollection
+from .doctor import DoctorsCollection
 from .users import UsersCollection
 

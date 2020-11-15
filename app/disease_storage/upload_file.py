@@ -63,9 +63,3 @@ class FileUploader:
         all_blobs = tuple(self.client.list_blobs(self.bucket))
 
         return all_blobs
-
-
-if __name__ == '__main__':
-    file_uploader = FileUploader(JSON_KEYS_SERVICE_ACCOUNT, DISEASE_HISTORY_FILES_NAME)
-
-    file_uploader.delete_file('78b5c209-b015-44a2-b638-d5a5dd7cb5b1.png')

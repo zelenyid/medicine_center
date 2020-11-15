@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 
-from .database import MongoBase
+from app.database.database import MongoBase
 from typing import Sequence, Tuple
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -20,5 +20,5 @@ class UsersCollection(MongoBase):
         return password_context.hash(password)
 
 # if __name__ == '__main__':
-#     # our test user
-#     UsersCollection.insert_obj({'email': 'test@test.mail', 'password': UsersCollection.get_password_hash('test')})
+    # our test user
+    # UsersCollection.insert_obj({'email': 'test@test.mail', 'password': UsersCollection.get_password_hash('test')})
