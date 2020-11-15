@@ -68,3 +68,14 @@ class MongoBase(abc.ABC, metaclass=Meta):
     @classmethod
     def delete_all_obj(cls):
         return cls.collection.delete_many({})
+
+
+    @staticmethod
+    def id_to_str(data):
+        if isinstance(data, list):
+            for obj in data:
+                obj['_id'] = str(obj['_id'])
+        elif isinstance(data, dict):
+            data['_id'] = str(data['_id'])
+
+        return data
