@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
+from bson.objectid import ObjectId
 
 
 class UserScheme(BaseModel):
@@ -9,13 +10,12 @@ class UserScheme(BaseModel):
 
 
 class DiseaseHistoryScheme(BaseModel):
-    id: int
-    author_id: int
-    patient_id: int
+    author_id: str
+    patient_id: str
     title: str
     date_updated: datetime
     date_created: datetime
     diagnosis: str
-    status: bool
+    status: str
     content: Optional[str]
     file_name: Optional[str]

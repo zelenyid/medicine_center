@@ -1,47 +1,41 @@
-import json
 import shutil
 import os
 import uuid
 
 from fastapi import APIRouter, File, UploadFile
+from starlette.responses import FileResponse
+from bson.objectid import ObjectId
 
 from app.validators.schemes.user_schemes import DiseaseHistoryScheme
 from app.disease_storage.upload_file import FileUploader
+from app.database.disease_history import HistoriesCollection
+from config import CLEARED_DIR
 
 router = APIRouter()
 
 
 @router.get('/{patient_id}')
-async def get_disease_histories(patient_id: int):
+async def get_disease_histories(patient_id: str):
     """
     Get list of disease histories of some user
-    TODO: select only "title", "date_updated", "status" from history json
-    TODO: load data from database
     :param patient_id:
     :return: list of histtories
     """
-    with open('app/database/test_history.json', 'r') as f:
-        all_histories = json.load(f)
 
-    histories_patient = [history for history in all_histories if
-                         history['patient_id'] == patient_id]
+    histories_patient = HistoriesCollection.get_objs({'patient_id': patient_id},
+                                                     fields=('_id', 'title', 'date_updated', 'status'))
 
     return histories_patient
 
 
 @router.get('/read_history/{history_id}')
-async def get_history(history_id: int):
+async def get_history(history_id: str):
     """
     Get history of some patient with some id of history
-    TODO: load data from database
-    :param patient_id: id of patient who history we open
     :param history_id: id of history in the database
     :return: histories with history_id
     """
-    with open('app/database/test_history.json', 'r') as f:
-        all_histories = json.load(f)
-
-    history = [history for history in all_histories if history['id'] == history_id][0]
+    history = HistoriesCollection.get_one_obj({'_id': ObjectId(history_id)})
 
     return history
 
@@ -50,41 +44,38 @@ async def get_history(history_id: int):
 async def add_history(history: DiseaseHistoryScheme):
     """
     Add to database new disease history for user
-    TODO: add path to dict from loaded file in form
-    TODO: add data to database
     :param history: dict of data to add to database
     :return:
     """
-    return history
+    HistoriesCollection.insert_obj(dict(history))
 
 
 @router.put('/disease_history/update/{history_id}')
-async def update_history(history_id: int):
+async def update_history(history_id: str, history: DiseaseHistoryScheme):
     """
     Update history with id - history_id
-    TODO: realize this method
     :param history_id: id of history in the database
+    :param history: dict of data to add to database
     :return:
     """
-    return {'msg': 'update history'}
+    HistoriesCollection.update_obj_by_id(history_id, dict(history))
 
 
 @router.delete('/disease_history/delete/{history_id}')
-async def delete_history(history_id: int):
+async def delete_history(history_id: str):
     """
     Delete history with id - history_id
-    TODO: realize this method
     :param history_id: id of history in the database
     :return:
     """
-    return {'msg': 'delete history'}
+    HistoriesCollection.delete_obj_by_id(history_id)
 
 
-@router.post("/uploadfile/")
-async def upload_file(file: UploadFile = File(...)):
+@router.post("/uploadfile/{history_id}")
+async def upload_file(history_id: str, file: UploadFile = File(...)):
     """
     upload file to google cloud storage
-    TODO: upload file to google cloud storage
+    :param history_id: id of history in the database
     :param file: file to uploading
     :return:
     """
@@ -100,4 +91,19 @@ async def upload_file(file: UploadFile = File(...)):
 
     os.remove('app/disease_storage/'+new_filename)
 
+    HistoriesCollection.update_obj_by_id(history_id, {'file_name': new_filename})
+
     return {"filename": new_filename}
+
+
+@router.get("/download/{history_id}")
+async def download_file(history_id: str):
+    filename = HistoriesCollection.get_one_obj({'_id': ObjectId(history_id)})['file_name']
+
+    if filename not in os.listdir(CLEARED_DIR):
+        file_uploader = FileUploader()
+        file_uploader.download_file(filename)
+
+    shutil.move(filename, "app/disease_storage/")
+
+    return FileResponse('app/disease_storage/'+filename, media_type='application/octet-stream', filename=filename)
