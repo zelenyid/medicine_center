@@ -1,4 +1,3 @@
-import sched
 import time
 import os
 
@@ -10,7 +9,7 @@ from starlette.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_utils.tasks import repeat_every
 
-from app.api import auth, default, profiles, disease_history
+from app.api import auth, default, profiles, disease_history, doctors, patients
 from app.main import app
 from app.storage.token_storage import RedisTokenStorage
 from config import JwtSettings, DEBUG_LOGIN, CLEARED_DIR, DISEASE_HISTORY_STATE_FILES
@@ -69,6 +68,8 @@ app.include_router(default.router)
 app.include_router(profiles.router)
 app.include_router(auth.router, prefix='/auth', tags=['auth'])
 app.include_router(disease_history.router, prefix='/history', tags=['history'])
+app.include_router(doctors.router, prefix='/doctors', tags=['doctors'])
+app.include_router(patients.router, prefix='/patients', tags=['patients'])
 app.mount("/static", StaticFiles(directory="static"), name='static')
 
 app.add_middleware(
