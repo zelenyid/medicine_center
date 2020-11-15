@@ -131,8 +131,7 @@ dmypy.json
 .vscode
 .idea
 
-<<<<<<< HEAD
+
 trash
-=======
 keys_service_account.json
->>>>>>> 8a3e4f1122a53a0e08bcb8e11894a5f694a242cd
+
