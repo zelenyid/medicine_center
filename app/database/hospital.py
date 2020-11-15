@@ -7,5 +7,5 @@ class HospitalCollection(MongoBase):
     db_fields: Sequence[Tuple[str]] = ('_id', 'name', 'address', 'phone_number')
 
 
-if __name__ == '__main__':
-    print(HospitalCollection.get_all_objects())
+# if __name__ == '__main__':
+#     print(HospitalCollection.get_all_objects())
