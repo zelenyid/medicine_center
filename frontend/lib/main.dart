@@ -28,7 +28,7 @@ initDependencies(){
   Get.put(ApiClient());
   Get.put(UserRepository());
 }
-        
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
