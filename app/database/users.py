@@ -1,4 +1,5 @@
 from passlib.context import CryptContext
+from datetime import datetime
 
 from app.database.database import MongoBase
 from typing import Sequence, Tuple
@@ -19,6 +20,18 @@ class UsersCollection(MongoBase):
     def get_password_hash(cls, password):
         return password_context.hash(password)
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
     # our test user
-    # UsersCollection.insert_obj({'email': 'test@test.mail', 'password': UsersCollection.get_password_hash('test')})
+    # UsersCollection.insert_obj({
+    #     'email': 'jghg@jghg.mail',
+    #     'password': UsersCollection.get_password_hash('jghg'),
+    #     'role': 'patient',
+    #     'name': 'Colin',
+    #     'surname': 'Grey',
+    #     'phone_number': '2512356',
+    #     'patronymic': 'Colin',
+    #     'gender': 'male',
+    #     'birthday': datetime(1964, 8, 12)
+    # })
+
+    print(UsersCollection.get_all_objects())
