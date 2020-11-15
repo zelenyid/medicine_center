@@ -15,7 +15,7 @@ class Meta(abc.ABCMeta):
     @property
     def collection(cls):
         if not hasattr(cls, '_collection'):
-            cls._collection = cls.database[DATABASE_NAME]
+            cls._collection = cls.database[cls.collection_name]
         return cls._collection
 
 

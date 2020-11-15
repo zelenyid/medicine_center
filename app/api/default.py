@@ -1,31 +1,47 @@
-from app.validators.schemes.user_schemes import LoginScheme
+from fastapi.params import Depends
+from fastapi_jwt_auth import AuthJWT
+from starlette.responses import FileResponse
+
+from app.validators.schemes.user_schemes import UserScheme
+from app.database.users import UsersCollection
+from app.main import app
 from fastapi import APIRouter
+
+from config import DEBUG_LOGIN
 
 router = APIRouter()
 
+
 @router.get('/')
-async def init():
-    return {"status": "ok", "msg": "init page"}
+def init():
+    return FileResponse('./static/index.html')
 
 
 @router.post('/login')
-async def login(request: LoginScheme):
-    return {"status": "ok", "msg": "logged in"}
+def login(user: UserScheme, Authorize: AuthJWT = Depends()):
+    registered_user = UsersCollection.get_one_obj({"email": user.email})
+    if registered_user:
+        password_correct = UsersCollection.verify_password(user.password, registered_user['password'])
+        if password_correct:
+            access_token = Authorize.create_access_token(subject=registered_user['email'])
+            refresh_token = Authorize.create_refresh_token(subject=registered_user['email'])
+            if not DEBUG_LOGIN:
+                app.state.redis.save_tokens(Authorize.get_jti(access_token), Authorize.get_jti(refresh_token))
+            return {"access_token": access_token, "refresh_token": refresh_token, "result": True, 'user_id': str(registered_user['_id'])}
+    return {"result": False, "msg": "Invalid credentials"}
 
 
-@router.post('/logout')
-async def logout():
-    return {"status": "ok", "msg": "logged out"}
+@router.get('/logout')
+async def logout(Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
+    app.state.redis.revoke_tokens(Authorize.get_raw_jwt()['jti'])
+    return {"status": "ok", "msg": "logged out", "result": True}
 
 
-@router.get('/search/{name}')
-async def logout(name):
-    return {"status": "ok", "msg": "logged out"}
+# EXAMPLE OF PROTECTED ROUTE
 
-@router.get('/{user}')
-async def logout(user):
-    return {"status": "ok", "msg": "logged out"}
-
-@router.get('/{user}/{schedule}')
-async def logout(user, schedule):
-    return {"status": "ok", "msg": "{}'s {}".format(user, schedule)}
+@router.get('/protected')
+def protected(Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
+    current_user = Authorize.get_jwt_subject()
+    return {"status": "ok", "msg": f"current_user: {current_user}"}
