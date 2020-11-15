@@ -5,7 +5,7 @@ from starlette.responses import JSONResponse
 from starlette.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import auth, default
+from app.api import auth, default, profiles
 from app.main import app
 from app.storage.token_storage import RedisTokenStorage
 from config import JwtSettings, DEBUG_LOGIN
@@ -44,6 +44,7 @@ def authjwt_exception_handler(request: Request, exc: AuthJWTException):
 
 
 app.include_router(default.router)
+app.include_router(profiles.router)
 app.include_router(auth.router, prefix='/auth', tags=['auth'])
 app.mount("/static", StaticFiles(directory="static"), name='static')
 
