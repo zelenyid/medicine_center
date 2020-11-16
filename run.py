@@ -1,6 +1,6 @@
 import time
 import os
-
+import uvicorn
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from starlette.requests import Request
@@ -79,3 +79,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+if __name__=='__main__': 
+    uvicorn.run("run:app", host='0.0.0.0', port=80)
