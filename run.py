@@ -80,6 +80,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/assets", StaticFiles(directory="static/assets"), name='assets')
+app.mount("/icons", StaticFiles(directory="static/icons"), name='assets')
 
 if __name__=='__main__': 
     uvicorn.run("run:app", host='0.0.0.0', port=80)
