@@ -22,9 +22,9 @@ class _BaseAppBarState extends State<BaseAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
-    );
+        title: Text(title),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.grey));
   }
 }

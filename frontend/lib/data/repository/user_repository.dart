@@ -10,6 +10,7 @@ class UserRepository extends GetxService {
   Future login(String email, String password) async {
     Response response = await _apiClient.login(email, password);
     if (response != null) {
+      print(response);
       this.userModel = UserModel.fromJson(response.data);
       return userModel;
     }
