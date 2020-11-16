@@ -28,7 +28,6 @@ async def get_all_doctors():
     Get all doctors from database
     :return: list of doctors
     """
-
     list_doctors = DoctorsCollection.to_json(DoctorsCollection.get_all_objects())
 
     for i in range(len(list_doctors)):

@@ -69,6 +69,13 @@ class MongoBase(abc.ABC, metaclass=Meta):
     def delete_all_obj(cls):
         return cls.collection.delete_many({})
 
+    @classmethod
+    def get_objs(cls, filter, fields=db_fields, projection=None):
+        res = list(cls.collection.find(filter, projection=projection))
+        res = cls.to_json(res)
+
+        return res
+
     @staticmethod
     def to_json(data):
         if isinstance(data, list):

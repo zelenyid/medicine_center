@@ -14,13 +14,6 @@ class HistoriesCollection(MongoBase):
 
         return cls.to_json(res)
 
-    @classmethod
-    def get_objs(cls, filter, fields=db_fields, projection=None):
-        res = list(cls.collection.find(filter, projection=projection))
-        res = cls.to_json(res)
-
-        return res
-
 
 if __name__ == '__main__':
     print(HistoriesCollection.get_all_objects())
