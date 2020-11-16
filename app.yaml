@@ -1,6 +1,0 @@
-runtime: python36
-
-env_variables:
-  MONGODB_PASSWORD: "mongo"
-
-entrypoint: sudo uvicorn run:app --host 0.0.0.0 --port 80
