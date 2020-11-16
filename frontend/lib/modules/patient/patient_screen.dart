@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medecine_app/ui/appbar/base_appbar.dart';
+import 'package:medecine_app/ui/drawer/base_drawer.dart';
 
 class PatientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
+      endDrawer: BaseDrawer(),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -193,26 +195,6 @@ class PatientScreen extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-}
-
-class IconTile extends StatelessWidget {
-  final IconButton iconButton;
-  final Color backColor;
-
-  IconTile({this.iconButton, this.backColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 16),
-      child: Container(
-          height: 45,
-          width: 45,
-          decoration: BoxDecoration(
-              color: backColor, borderRadius: BorderRadius.circular(15)),
-          child: iconButton),
     );
   }
 }

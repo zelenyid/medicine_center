@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medecine_app/data/models/user_model.dart';
 
+import '../../routes.dart';
 import 'login_controller.dart';
 
 final kHintTextStyle = TextStyle(
@@ -149,7 +150,7 @@ class LoginScreen extends GetView<LoginController> {
     UserModel userModel =
         await controller.login(emailController.text, passwordController.text);
     if (userModel != null) {
-      Get.snackbar('Success', 'Logged in!');
+      Get.offAndToNamed(Routes.Patient);
     } else {
       print('something went wrong on login');
     }
