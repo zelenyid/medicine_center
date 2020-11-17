@@ -8,6 +8,7 @@ import 'package:medecine_app/routes.dart';
 import 'data/provider/api.dart';
 import 'modules/doctor/doctor_screen.dart';
 import 'modules/hospitals/hospitals_screen.dart';
+import 'modules/patient/patient_binding.dart';
 import 'modules/patient/patient_screen.dart';
 
 void main() {
@@ -24,9 +25,9 @@ void main() {
           binding: LoginBinding(),
         ),
         GetPage(
-          name: Routes.Patient,
-          page: () => PatientScreen(),
-        ),
+            name: Routes.Patient,
+            page: () => PatientScreen(),
+            binding: PatientBinding()),
         GetPage(
           name: Routes.Doctor,
           page: () => DoctorScreen(),

@@ -147,7 +147,7 @@ class LoginScreen extends GetView<LoginController> {
 
   // TODO: Add validator
   Future _login() async {
-    UserModel userModel =
+    var userModel =
         await controller.login(emailController.text, passwordController.text);
     if (userModel != null) {
       Get.offAndToNamed(Routes.Patient);
