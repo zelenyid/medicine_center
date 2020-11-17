@@ -2,6 +2,8 @@ import bson
 import abc
 from pymongo import MongoClient
 from config import DATABASE_NAME, DB_SOURCE
+from bson.objectid import ObjectId
+from bson.errors import InvalidId
 
 
 # TODO: Add validation for attributes in __new__ method
@@ -38,11 +40,16 @@ class MongoBase(abc.ABC, metaclass=Meta):
 
     @classmethod
     def get_all_objects(cls, projection=None):
-        return list(cls.collection.find({}, projection=projection))
+        return {'data': cls.to_json(list(cls.collection.find({}, projection=projection))), 'result': True}
 
     @classmethod
     def get_one_obj(cls, filter, projection=None):
-        return cls.collection.find_one(filter, projection=projection)
+        try:
+            filter['_id'] = ObjectId(filter['_id'])
+        except InvalidId:
+            return {'data': {}, 'description': 'Invalid id. Can\'t convert to ObjectId', 'result': False}
+
+        return {'data': cls.to_json(cls.collection.find_one(filter, projection=projection)), 'result': True}
 
     @classmethod
     def insert_obj(cls, data: dict):
@@ -71,6 +78,7 @@ class MongoBase(abc.ABC, metaclass=Meta):
 
     @classmethod
     def get_objs(cls, filter, fields=db_fields, projection=None):
+
         res = list(cls.collection.find(filter, projection=projection))
         res = cls.to_json(res)
 
@@ -91,3 +99,9 @@ class MongoBase(abc.ABC, metaclass=Meta):
                     data[field] = str(data[field])
 
         return data
+
+    @classmethod
+    def get_ids(cls):
+        collection_id = [str(coll_id) for coll_id in cls.collection.find().distinct('_id')]
+
+        return collection_id

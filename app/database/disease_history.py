@@ -1,5 +1,7 @@
 from app.database.database import MongoBase
 from typing import Sequence, Tuple
+from bson.objectid import ObjectId
+from bson.errors import InvalidId
 
 
 class HistoriesCollection(MongoBase):
@@ -10,9 +12,14 @@ class HistoriesCollection(MongoBase):
 
     @classmethod
     def get_one_obj(cls, filter, projection=None):
+        try:
+            filter['_id'] = ObjectId(filter['_id'])
+        except InvalidId:
+            return {'data': {}, 'description': 'Invalid id. Can\'t convert to ObjectId', 'result': False}
+
         res = cls.collection.find_one(filter, projection=projection)
 
-        return cls.to_json(res)
+        return {'data': cls.to_json(res), 'result': True}
 
 
 if __name__ == '__main__':

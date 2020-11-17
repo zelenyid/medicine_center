@@ -56,10 +56,13 @@ class FileUploader:
         blob = self.bucket.blob(filename)
         blob.delete()
 
-    def list_blobs(self) -> tuple:
+    def list_blobs(self) -> list:
         """
         :return: list of blobs in the current bucket
         """
-        all_blobs = tuple(self.client.list_blobs(self.bucket))
+        all_blobs = list(self.client.list_blobs(self.bucket))
+
+        for i in range(len(all_blobs)):
+            all_blobs[i] = all_blobs[i].name
 
         return all_blobs

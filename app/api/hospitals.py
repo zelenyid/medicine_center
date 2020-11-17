@@ -14,9 +14,12 @@ async def get_hospital_profile(hospital_id: str):
     Get data for hospital profile
 
     """
-    hospital_data = HospitalCollection.to_json(HospitalCollection.get_one_obj({'_id': ObjectId(hospital_id)}))
+    hospital_data = HospitalCollection.get_one_obj({'_id': hospital_id})['data']
 
-    return hospital_data
+    if not hospital_data:
+        return {'data': {}, 'result': False}, 200
+
+    return {'data': hospital_data, 'result': True}
 
 
 @router.get('/hospitals')
@@ -26,7 +29,7 @@ async def get_all_hospitals():
     :return: list of hospitals
     """
 
-    return HospitalCollection.to_json(HospitalCollection.get_all_objects())
+    return {'data': HospitalCollection.get_all_objects()['data'], 'result': True}
 
 
 @router.get('/hospital/{hospital_id}/doctors/')
@@ -36,4 +39,9 @@ async def get_hospitals_doctors(hospital_id: str):
     :param hospital_id: hospital's id
     :return: list of doctors
     """
-    return DoctorsCollection.get_objs({'hospital_id': ObjectId(hospital_id)})
+    res = DoctorsCollection.get_objs({'hospital_id': hospital_id})
+
+    if not res:
+        return {'data': {}, 'result': False}, 200
+
+    return {'data': res, 'result': True}
