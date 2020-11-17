@@ -19,6 +19,9 @@ async def get_doctor_profile(user_id: str):
     user_data = UsersCollection.to_json(UsersCollection.get_one_obj({'_id': ObjectId(user_id)}))
     doctor_data = DoctorsCollection.to_json(DoctorsCollection.get_one_obj({'user_id': ObjectId(user_id)}))
 
+    if not doctor_data:
+        return {'data': {}, 'result': False}, 200
+
     return {**doctor_data, **user_data}
 
 
@@ -29,6 +32,9 @@ async def get_all_doctors():
     :return: list of doctors
     """
     list_doctors = DoctorsCollection.to_json(DoctorsCollection.get_all_objects())
+
+    if not list_doctors:
+        return {'data': {}, 'result': False}, 200
 
     for i in range(len(list_doctors)):
         user_data = UsersCollection.to_json(UsersCollection.get_one_obj({'_id': ObjectId(list_doctors[i]['user_id'])}))

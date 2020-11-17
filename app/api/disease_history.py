@@ -25,6 +25,9 @@ async def get_disease_histories(patient_id: str):
     histories_patient = HistoriesCollection.get_objs({'patient_id': patient_id},
                                                      fields=('_id', 'title', 'date_updated', 'status'))
 
+    if not histories_patient:
+        return {'data': {}, 'result': False}, 200
+
     return histories_patient
 
 
@@ -36,6 +39,9 @@ async def get_history(history_id: str):
     :return: histories with history_id
     """
     history = HistoriesCollection.get_one_obj({'_id': ObjectId(history_id)})
+
+    if not history:
+        return {'data': {}, 'result': False}, 200
 
     return history
 
