@@ -25,7 +25,10 @@ async def get_disease_histories(patient_id: str):
     histories_patient = HistoriesCollection.get_objs({'patient_id': patient_id},
                                                      fields=('_id', 'title', 'date_updated', 'status'))
 
-    return histories_patient
+    if not histories_patient:
+        return {'data': {}, 'result': False}, 200
+
+    return {'data': histories_patient, 'result': True}
 
 
 @router.get('/read_history/{history_id}')
@@ -35,7 +38,10 @@ async def get_history(history_id: str):
     :param history_id: id of history in the database
     :return: histories with history_id
     """
-    history = HistoriesCollection.get_one_obj({'_id': ObjectId(history_id)})
+    history = HistoriesCollection.get_one_obj({'_id': history_id})
+
+    if not history['data']:
+        return {'data': {}, 'result': False}, 200
 
     return history
 
@@ -48,6 +54,7 @@ async def add_history(history: DiseaseHistoryScheme):
     :return:
     """
     HistoriesCollection.insert_obj(dict(history))
+    return {'description': 'Success add', 'result': True}
 
 
 @router.put('/disease_history/update/{history_id}')
@@ -58,7 +65,11 @@ async def update_history(history_id: str, history: DiseaseHistoryScheme):
     :param history: dict of data to add to database
     :return:
     """
-    HistoriesCollection.update_obj_by_id(history_id, dict(history))
+    if history_id in HistoriesCollection.get_ids():
+        HistoriesCollection.update_obj_by_id(history_id, dict(history))
+        return {'description': 'Success update', 'result': True}
+    else:
+        return {'description': 'Can\'n found history by this id', 'result': False}
 
 
 @router.delete('/disease_history/delete/{history_id}')
@@ -68,7 +79,10 @@ async def delete_history(history_id: str):
     :param history_id: id of history in the database
     :return:
     """
-    HistoriesCollection.delete_obj_by_id(history_id)
+    if history_id in HistoriesCollection.get_ids():
+        HistoriesCollection.delete_obj_by_id(history_id)
+        return {'description': 'Success delete', 'result': True}
+    return {'description': 'Can\'n found history by this id', 'result': False}
 
 
 @router.post("/uploadfile/{history_id}")
@@ -79,31 +93,41 @@ async def upload_file(history_id: str, file: UploadFile = File(...)):
     :param file: file to uploading
     :return:
     """
-    with open(file.filename, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    if history_id in HistoriesCollection.get_ids():
+        with open(file.filename, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
 
-    new_filename = str(uuid.uuid4()) + '.' + file.filename.split('.')[-1]
-    os.renames(file.filename, new_filename)
-    shutil.move(new_filename, "app/disease_storage/")
+        new_filename = str(uuid.uuid4()) + '.' + file.filename.split('.')[-1]
+        os.renames(file.filename, new_filename)
+        shutil.move(new_filename, "app/disease_storage/")
 
-    file_uploader = FileUploader()
-    file_uploader.upload_file('app/disease_storage/'+new_filename, new_filename)
+        file_uploader = FileUploader()
+        file_uploader.upload_file('app/disease_storage/'+new_filename, new_filename)
 
-    os.remove('app/disease_storage/'+new_filename)
+        os.remove('app/disease_storage/'+new_filename)
 
-    HistoriesCollection.update_obj_by_id(history_id, {'file_name': new_filename})
+        HistoriesCollection.update_obj_by_id(history_id, {'file_name': new_filename})
 
-    return {"filename": new_filename}
+        return {'description': 'Success add file', 'result': True}
+
+    return {'description': 'Can\'n found history by this id', 'result': False}
 
 
 @router.get("/download/{history_id}")
 async def download_file(history_id: str):
-    filename = HistoriesCollection.get_one_obj({'_id': ObjectId(history_id)})['file_name']
+    if history_id in HistoriesCollection.get_ids():
+        filename = HistoriesCollection.get_one_obj({'_id': history_id})['data']['file_name']
 
-    if filename not in os.listdir(CLEARED_DIR):
-        file_uploader = FileUploader()
-        file_uploader.download_file(filename)
+        if filename not in os.listdir(CLEARED_DIR):
+            file_uploader = FileUploader()
 
-    shutil.move(filename, "app/disease_storage/")
+            if filename in file_uploader.list_blobs():
+                file_uploader.download_file(filename)
+            else:
+                return {'description': "File not found", 'result': False}
 
-    return FileResponse('app/disease_storage/'+filename, media_type='application/octet-stream', filename=filename)
+            shutil.move(filename, "app/disease_storage/")
+
+        return FileResponse('app/disease_storage/'+filename, media_type='application/octet-stream', filename=filename)
+
+    return {'description': 'Can\'n found history by this id', 'result': False}

@@ -1,5 +1,7 @@
 from app.database.database import MongoBase
 from typing import Sequence, Tuple
+from bson.objectid import ObjectId
+from bson.errors import InvalidId
 
 
 class HospitalCollection(MongoBase):

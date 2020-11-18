@@ -16,10 +16,16 @@ async def get_patient_profile(user_id: str):
     :param user_id: Id of user in database
     :return: patient data
     """
-    user_data = UsersCollection.to_json(UsersCollection.get_one_obj({'_id': ObjectId(user_id)}))
-    patient_data = PatientsCollection.to_json(PatientsCollection.get_one_obj({'user_id': ObjectId(user_id)}))
+    user_data = UsersCollection.get_one_obj({'_id': user_id})['data']
+    patient_data = PatientsCollection.get_one_obj({'user_id': user_id})['data']
 
-    return {**patient_data, **user_data}
+    if not patient_data:
+        return {'data': {}, 'result': False}, 200
+
+    res = {**patient_data, **user_data}
+    del res['password']
+
+    return {'data': res, 'result': True}
 
 
 @router.get('/patients/')
@@ -28,10 +34,15 @@ async def get_all_patient():
     Get all patients from database
     :return: list of doctors
     """
-    list_patient = PatientsCollection.to_json(PatientsCollection.get_all_objects())
+    list_patient = PatientsCollection.get_all_objects()['data']
+
+    if not list_patient:
+        return {'data': {}, 'result': False}, 200
 
     for i in range(len(list_patient)):
-        user_data = UsersCollection.to_json(UsersCollection.get_one_obj({'_id': ObjectId(list_patient[i]['user_id'])}))
+        user_data = UsersCollection.get_one_obj({'_id': list_patient[i]['user_id']})['data']
         list_patient[i] = {**list_patient[i], **user_data}
 
-    return list_patient
+        del list_patient[i]['password']
+
+    return {'data': list_patient, 'result': True}
