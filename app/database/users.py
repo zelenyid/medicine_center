@@ -24,15 +24,15 @@ class UsersCollection(MongoBase):
 if __name__ == '__main__':
     # our test user
     # UsersCollection.insert_obj({
-    #     'email': 'jghg@jghg.mail',
-    #     'password': UsersCollection.get_password_hash('jghg'),
+    #     'email': 'xagepittollu-1049@yopmail.com',
+    #     'password': UsersCollection.get_password_hash('123456'),
     #     'role': 'patient',
-    #     'name': 'Colin',
-    #     'surname': 'Grey',
-    #     'phone_number': '2512356',
-    #     'patronymic': 'Colin',
-    #     'gender': 'male',
-    #     'birthday': datetime(1964, 8, 12)
+    #     'name': 'Yvette',
+    #     'surname': 'Ireland',
+    #     'phone_number': '(399) 449-5389',
+    #     'patronymic': 'Max',
+    #     'gender': 'female',
+    #     'birthday': datetime(1985, 9, 1)
     # })
 
-    print(UsersCollection.get_all_objects())
+    print(UsersCollection.get_objs({'email': 'xagepittollu-1049@yopmail.com'}))
