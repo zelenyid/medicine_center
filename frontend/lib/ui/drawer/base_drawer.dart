@@ -24,14 +24,6 @@ class BaseDrawer extends StatelessWidget {
             title: Text('Hospitals'),
             onTap: () => Get.toNamed(Routes.Hospitals),
           ),
-          ListTile(
-            leading: Icon(Icons.message),
-            title: Text('Messages'),
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-          ),
         ],
       ),
     ));

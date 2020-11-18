@@ -7,18 +7,18 @@ class HospitalsRepository extends GetxService {
   ApiClient _apiClient = Get.find<ApiClient>();
   RxList hospitals = [].obs;
 
-  Future get() async {
+  Future getHospitals() async {
     Response response = await _apiClient.getAllHospitals();
+    print(response.data);
     if (response != null) {
       Map data = response.data;
       if (data != null) {
         if (data["result"]) {
-          List hospitals = data["data"];
-          List newHospitals = [];
-          for (var hospital in hospitals) {
-            newHospitals.add(HospitalModel.fromJson(data));
+          List hospitalsData = data["data"];
+          hospitals.clear();
+          for (var hospital in hospitalsData) {
+            hospitals.add(HospitalModel.fromJson(hospital));
           }
-          hospitals = newHospitals.obs;
           return hospitals;
         }
       }

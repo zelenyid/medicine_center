@@ -1,6 +1,5 @@
 // import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:medecine_app/data/models/user_model.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
 // import 'package:medecine_app/data/utils/exceptions.dart';
 
@@ -9,10 +8,12 @@ class PatientController extends GetxController {
 
   final String title = 'Login';
   get userModel => _userRepository.userModel;
+  get diseaseHistories => _userRepository.diseaseHistories;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    await _userRepository.getDiseaseHistoryByUserId(userModel?.value?.id);
     // _userRepository.login('test', 'test');
   }
 

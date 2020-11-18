@@ -40,16 +40,17 @@ class MongoBase(abc.ABC, metaclass=Meta):
 
     @classmethod
     def get_all_objects(cls, projection=None):
-        return {'data': cls.to_json(list(cls.collection.find({}, projection=projection))), 'result': True}
+        return {'data': list(cls.collection.find({}, projection=projection)), 'result': True}
 
     @classmethod
     def get_one_obj(cls, filter, projection=None):
-        try:
-            filter['_id'] = ObjectId(filter['_id'])
-        except InvalidId:
-            return {'data': {}, 'description': 'Invalid id. Can\'t convert to ObjectId', 'result': False}
+        if filter.get('_id'):
+            try:
+                filter['_id'] = ObjectId(filter['_id'])
+            except InvalidId:
+                return
 
-        return {'data': cls.to_json(cls.collection.find_one(filter, projection=projection)), 'result': True}
+        return cls.collection.find_one(filter, projection=projection)
 
     @classmethod
     def insert_obj(cls, data: dict):

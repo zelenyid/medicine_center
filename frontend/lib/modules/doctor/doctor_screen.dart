@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medecine_app/ui/appbar/base_appbar.dart';
+import 'package:medecine_app/ui/buttons/call_button.dart';
+import 'package:medecine_app/ui/buttons/email_button.dart';
 
 class DoctorScreen extends StatelessWidget {
   @override
@@ -211,18 +213,8 @@ class DoctorScreen extends StatelessWidget {
                 ),
                 Row(
                   children: <Widget>[
-                    IconTile(
-                      backColor: Color.fromRGBO(144, 202, 249, 1),
-                      iconButton: IconButton(
-                          icon: Icon(Icons.email),
-                          onPressed: () => print('pressed mail')),
-                    ),
-                    IconTile(
-                      backColor: Color(0xFF73AEF5),
-                      iconButton: IconButton(
-                          icon: Icon(Icons.call),
-                          onPressed: () => print('pressed call')),
-                    ),
+                    CallButton(phoneNumber: '380951651241'),
+                    EmailButton(email: 'fpm.km73@gmail.com'),
                   ],
                 )
               ],
