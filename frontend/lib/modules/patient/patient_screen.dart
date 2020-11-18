@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medecine_app/ui/appbar/base_appbar.dart';
 import 'package:medecine_app/ui/drawer/base_drawer.dart';
 
-class PatientScreen extends StatelessWidget {
+import 'patient_controller.dart';
+
+class PatientScreen extends GetView<PatientController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +36,20 @@ class PatientScreen extends StatelessWidget {
                 "20 years old.",
                 style: TextStyle(color: Colors.grey, fontSize: 16),
               ),
+              Obx(() {
+                print(controller.userModel?.value);
+                return Text(
+                  'Phone number: ${controller.userModel?.value?.phoneNumber ?? 'undefined'}',
+                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                );
+              }),
+              Obx(() {
+                print(controller.userModel?.value);
+                return Text(
+                  'Gender: ${controller.userModel?.value?.gender}',
+                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                );
+              }),
               SizedBox(
                 height: 24,
               ),
@@ -169,10 +186,20 @@ class PatientScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Nazar Kostetskiy",
-                  style: TextStyle(fontSize: 24),
-                ),
+                Obx(() {
+                  print(controller.userModel?.value);
+                  return Text(
+                    '${controller.userModel?.value?.name}',
+                    style: TextStyle(fontSize: 24),
+                  );
+                }),
+                Obx(() {
+                  print(controller.userModel?.value?.surname);
+                  return Text(
+                    '${controller.userModel?.value?.name}',
+                    style: TextStyle(fontSize: 24),
+                  );
+                }),
                 Text(
                   "Student",
                   style: TextStyle(fontSize: 18, color: Colors.grey),
