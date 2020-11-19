@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from bson.objectid import ObjectId
 
 from app.database.doctor import DoctorsCollection
 from app.database.users import UsersCollection

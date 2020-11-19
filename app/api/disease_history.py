@@ -4,7 +4,6 @@ import uuid
 
 from fastapi import APIRouter, File, UploadFile
 from starlette.responses import FileResponse
-from bson.objectid import ObjectId
 
 from app.validators.schemes.user_schemes import DiseaseHistoryScheme
 from app.disease_storage.upload_file import FileUploader

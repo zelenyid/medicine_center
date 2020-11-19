@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from bson.objectid import ObjectId
 
 from app.database.hospital import HospitalCollection
 from app.database.doctor import DoctorsCollection
@@ -12,7 +11,6 @@ router = APIRouter()
 async def get_hospital_profile(hospital_id: str):
     """
     Get data for hospital profile
-
     """
     hospital_data = HospitalCollection.get_one_obj({'_id': hospital_id})['data']
 
