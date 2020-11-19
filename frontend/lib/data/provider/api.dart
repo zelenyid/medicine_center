@@ -5,7 +5,7 @@ import 'package:medecine_app/data/utils/exceptions.dart';
 
 // const String baseUrl = 'http://46.98.246.226/';
 // const String baseUrl = 'http://192.168.1.121:8000/';
-const String baseUrl = 'http://192.168.1.121:8000/';
+const String baseUrl = 'http://34.89.129.235:80/';
 
 enum http_method { GET, POST }
 
@@ -17,7 +17,7 @@ class ApiClient {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      connectTimeout: 10000,
+      connectTimeout: 4000,
       validateStatus: (status) {
         return status < 500;
       });
@@ -63,8 +63,6 @@ class ApiClient {
     } else if (method == http_method.POST) {
       request = () => _dio.post(path, data: data, options: authHeaderOptions);
     }
-    print(accessToken);
-    print('refresh : $_refreshToken');
     Response response = await request();
     if (response.statusCode == 200) {
       return response;
@@ -107,7 +105,7 @@ class ApiClient {
     return await _authenticatedRequest('/hospitals', method: http_method.GET);
   }
 
-  getAllHospitalDoctors(hospitalID) async {
+  getHospitalDoctors(hospitalID) async {
     return await _authenticatedRequest('/hospital/$hospitalID/doctors/',
         method: http_method.GET);
   }

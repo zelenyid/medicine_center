@@ -28,7 +28,7 @@ async def get_all_hospitals():
     :return: list of hospitals
     """
 
-    return {'data': HospitalCollection.to_json(HospitalCollection.get_all_objects()['data']), 'result': True}
+    return {'data': HospitalCollection.get_all_objects()['data'], 'result': True}
 
 
 @router.get('/hospital/{hospital_id}/doctors/')
