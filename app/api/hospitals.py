@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.database.hospital import HospitalCollection
 from app.database.doctor import DoctorsCollection
+from app.database.users import UsersCollection
 
 
 router = APIRouter()
@@ -38,6 +39,11 @@ async def get_hospitals_doctors(hospital_id: str):
     :return: list of doctors
     """
     res = DoctorsCollection.get_objs({'hospital_id': hospital_id})
+    for i in range(len(res)):
+        user_data = UsersCollection.get_one_obj({'_id': res[i]['user_id']})['data']
+        res[i] = {**res[i], **user_data}
+
+        del res[i]['password']
 
     if not res:
         return {'data': {}, 'result': False}, 200
