@@ -21,8 +21,9 @@ async def get_disease_histories(patient_id: str):
     :return: list of histtories
     """
 
-    histories_patient = HistoriesCollection.get_objs({'patient_id': patient_id},
-                                                     fields=('_id', 'title', 'date_updated', 'status'))
+    histories_patient = HistoriesCollection.to_json(HistoriesCollection.get_objs({'patient_id': patient_id},
+                                                                                 fields=('_id', 'title', 'date_updated',
+                                                                                         'status')))
 
     if not histories_patient:
         return {'data': {}, 'result': False}, 200
@@ -37,7 +38,7 @@ async def get_history(history_id: str):
     :param history_id: id of history in the database
     :return: histories with history_id
     """
-    history = HistoriesCollection.get_one_obj({'_id': history_id})
+    history = HistoriesCollection.to_json(HistoriesCollection.get_one_obj({'_id': history_id}))
 
     if not history['data']:
         return {'data': {}, 'result': False}, 200
@@ -101,9 +102,9 @@ async def upload_file(history_id: str, file: UploadFile = File(...)):
         shutil.move(new_filename, "app/disease_storage/")
 
         file_uploader = FileUploader()
-        file_uploader.upload_file('app/disease_storage/'+new_filename, new_filename)
+        file_uploader.upload_file('app/disease_storage/' + new_filename, new_filename)
 
-        os.remove('app/disease_storage/'+new_filename)
+        os.remove('app/disease_storage/' + new_filename)
 
         HistoriesCollection.update_obj_by_id(history_id, {'file_name': new_filename})
 
@@ -115,7 +116,7 @@ async def upload_file(history_id: str, file: UploadFile = File(...)):
 @router.get("/download/{history_id}")
 async def download_file(history_id: str):
     if history_id in HistoriesCollection.get_ids():
-        filename = HistoriesCollection.get_one_obj({'_id': history_id})['data']['file_name']
+        filename = HistoriesCollection.to_json(HistoriesCollection.get_one_obj({'_id': history_id})['data']['file_name'])
 
         if filename not in os.listdir(CLEARED_DIR):
             file_uploader = FileUploader()
@@ -127,6 +128,6 @@ async def download_file(history_id: str):
 
             shutil.move(filename, "app/disease_storage/")
 
-        return FileResponse('app/disease_storage/'+filename, media_type='application/octet-stream', filename=filename)
+        return FileResponse('app/disease_storage/' + filename, media_type='application/octet-stream', filename=filename)
 
     return {'description': 'Can\'n found history by this id', 'result': False}

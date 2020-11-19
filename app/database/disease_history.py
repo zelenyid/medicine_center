@@ -15,11 +15,10 @@ class HistoriesCollection(MongoBase):
         try:
             filter['_id'] = ObjectId(filter['_id'])
         except InvalidId:
-            return {'data': {}, 'description': 'Invalid id. Can\'t convert to ObjectId', 'result': False}
+            return
 
-        res = cls.collection.find_one(filter, projection=projection)
+        return cls.collection.find_one(filter, projection=projection)
 
-        return {'data': cls.to_json(res), 'result': True}
 
 
 if __name__ == '__main__':

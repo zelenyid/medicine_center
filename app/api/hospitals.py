@@ -40,7 +40,7 @@ async def get_hospitals_doctors(hospital_id: str):
     """
     res = DoctorsCollection.get_objs({'hospital_id': hospital_id})
     for i in range(len(res)):
-        user_data = UsersCollection.get_one_obj({'_id': res[i]['user_id']})['data']
+        user_data = UsersCollection.get_one_obj({'_id': res[i]['user_id']})
         res[i] = {**res[i], **user_data}
 
         del res[i]['password']

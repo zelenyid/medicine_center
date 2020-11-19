@@ -5,7 +5,7 @@ import 'package:medecine_app/data/utils/exceptions.dart';
 
 // const String baseUrl = 'http://46.98.246.226/';
 // const String baseUrl = 'http://192.168.1.121:8000/';
-const String baseUrl = 'http://34.89.129.235/';
+const String baseUrl = 'http://192.168.1.121:8000/';
 
 enum http_method { GET, POST }
 
@@ -101,6 +101,36 @@ class ApiClient {
       }
     }
     return response;
+  }
+
+  getAllHospitals() async {
+    return await _authenticatedRequest('/hospitals', method: http_method.GET);
+  }
+
+  getAllHospitalDoctors(hospitalID) async {
+    return await _authenticatedRequest('/hospital/$hospitalID/doctors/',
+        method: http_method.GET);
+  }
+
+  getAllDoctors() {}
+
+  getDoctorProfile() {}
+
+  getPatientByID(userID) async {
+    print('get patient');
+    return await _authenticatedRequest('/profile/patient/$userID',
+        method: http_method.GET);
+  }
+
+  getDoctorByID(userID) async {
+    print('getdoctror');
+    return await _authenticatedRequest('/profile/doctor/$userID',
+        method: http_method.GET);
+  }
+
+  getDesiaseHistoriesById(String userId) async {
+    return await _authenticatedRequest('history/$userId',
+        method: http_method.GET);
   }
 }
 
