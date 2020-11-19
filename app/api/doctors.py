@@ -15,8 +15,8 @@ async def get_doctor_profile(user_id: str):
     :param user_id: Id of doctor in database
     :return: doctor data
     """
-    user_data = UsersCollection.to_json( UsersCollection.get_one_obj({'_id': user_id})['data'])
-    doctor_data = DoctorsCollection.to_json(DoctorsCollection.get_one_obj({'user_id': user_id})['data'])
+    user_data = UsersCollection.to_json( UsersCollection.get_one_obj({'_id': user_id}))
+    doctor_data = DoctorsCollection.to_json(DoctorsCollection.get_one_obj({'user_id': user_id}))
 
     if not doctor_data:
         return {'data': {}, 'result': False}, 200
@@ -39,7 +39,7 @@ async def get_all_doctors():
         return {'data': {}, 'result': False}, 200
 
     for i in range(len(list_doctors)):
-        user_data = UsersCollection.to_json(UsersCollection.get_one_obj({'_id': list_doctors[i]['user_id']})['data'])
+        user_data = UsersCollection.to_json(UsersCollection.get_one_obj({'_id': list_doctors[i]['user_id']}))
         list_doctors[i] = {**list_doctors[i], **user_data}
         del list_doctors[i]['password']
 
