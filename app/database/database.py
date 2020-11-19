@@ -1,9 +1,11 @@
 import bson
 import abc
-from pymongo import MongoClient
-from config import DATABASE_NAME, DB_SOURCE
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
+
+from pymongo import MongoClient
+
+from config import DATABASE_NAME, DB_SOURCE
 
 
 # TODO: Add validation for attributes in __new__ method
@@ -50,7 +52,7 @@ class MongoBase(abc.ABC, metaclass=Meta):
             except InvalidId:
                 return
 
-        return cls.collection.find_one(filter, projection=projection)
+        return cls.to_json(cls.collection.find_one(filter, projection=projection))
 
     @classmethod
     def insert_obj(cls, data: dict):
