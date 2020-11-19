@@ -12,7 +12,7 @@ class HospitalModel {
   String phoneNumber;
 
   factory HospitalModel.fromJson(Map<String, dynamic> json) => HospitalModel(
-        id: json["id"],
+        id: json["_id"],
         name: json["name"],
         address: json["address"],
         phoneNumber: json["phone_number"],

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:medecine_app/ui/appbar/base_appbar.dart';
+import 'package:medecine_app/ui/buttons/call_button.dart';
+import 'package:medecine_app/ui/buttons/email_button.dart';
 import 'package:medecine_app/ui/drawer/base_drawer.dart';
 
 import 'patient_controller.dart';
@@ -32,23 +36,23 @@ class PatientScreen extends GetView<PatientController> {
                 "Kiyv.",
                 style: TextStyle(color: Colors.grey, fontSize: 16),
               ),
-              Text(
-                "20 years old.",
-                style: TextStyle(color: Colors.grey, fontSize: 16),
-              ),
               Obx(() {
                 print(controller.userModel?.value);
-                return Text(
-                  'Phone number: ${controller.userModel?.value?.phoneNumber ?? 'undefined'}',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                );
+                return Row(children: [
+                  Text(
+                    'Phone number: ${controller.userModel?.value?.phoneNumber ?? 'undefined'}',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  )
+                ]);
               }),
               Obx(() {
                 print(controller.userModel?.value);
-                return Text(
-                  'Gender: ${controller.userModel?.value?.gender}',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                );
+                return Row(children: [
+                  Text(
+                    'Gender: ${controller.userModel?.value?.gender}',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  )
+                ]);
               }),
               SizedBox(
                 height: 24,
@@ -87,7 +91,28 @@ class PatientScreen extends GetView<PatientController> {
             color: Color(0xFF73AEF5),
             child: new InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () => print("tapped"),
+              onTap: () => Get.dialog(Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Obx(
+                        () => ListView.builder(
+                            itemCount: controller.diseaseHistories.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                leading:
+                                    Icon(FlutterIcons.thermometer_alert_mco),
+                                title: Text('Diagnosis: ' +
+                                    controller
+                                        .diseaseHistories[index].value.title),
+                                subtitle: Text('Status: ' +
+                                    controller
+                                        .diseaseHistories[index].value.status),
+                              );
+                            }),
+                      )))),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                 child: Row(
@@ -200,23 +225,26 @@ class PatientScreen extends GetView<PatientController> {
                     style: TextStyle(fontSize: 24),
                   );
                 }),
-                Text(
-                  "Student",
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
+                Obx(() => Text(controller.userModel?.value?.email ?? '',
+                    style: TextStyle(fontSize: 18, color: Colors.grey))),
+                Obx(() => Text(controller.userModel?.value?.profession ?? '',
+                    style: TextStyle(fontSize: 18, color: Colors.grey))),
                 SizedBox(
                   height: 40,
                 ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.vertical,
+                //   child:
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconTile(
-                      backColor: Color.fromRGBO(144, 202, 249, 1),
-                      iconButton: IconButton(
-                          icon: Icon(Icons.email),
-                          onPressed: () => print('pressed mail')),
-                    ),
+                    Obx(() =>
+                        EmailButton(email: controller.userModel?.value?.email)),
+                    Obx(() => CallButton(
+                        phoneNumber: controller?.userModel?.value?.phoneNumber))
                   ],
-                )
+                ),
+                // )
               ],
             ),
           ),

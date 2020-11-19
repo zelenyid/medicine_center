@@ -10,6 +10,7 @@ class PatientModel {
     this.surname,
     this.phoneNumber,
     this.patronymic,
+    this.address,
     this.gender,
     this.birthday,
   });
@@ -23,6 +24,7 @@ class PatientModel {
   String name;
   String surname;
   String phoneNumber;
+  String address;
   String patronymic;
   String gender;
   DateTime birthday;
@@ -38,6 +40,7 @@ class PatientModel {
         surname: json["surname"],
         phoneNumber: json["phone_number"],
         patronymic: json["patronymic"],
+        address: json["address"],
         gender: json["gender"],
         // birthday: DateTime.parse(json["birthday"]),
       );

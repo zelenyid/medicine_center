@@ -127,6 +127,11 @@ class ApiClient {
     return await _authenticatedRequest('/profile/doctor/$userID',
         method: http_method.GET);
   }
+
+  getDesiaseHistoriesById(String userId) async {
+    return await _authenticatedRequest('history/$userId',
+        method: http_method.GET);
+  }
 }
 
 main() async {

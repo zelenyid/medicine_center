@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medecine_app/data/repository/hospitals_repository.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
 import 'package:medecine_app/modules/login/login_binding.dart';
 import 'package:medecine_app/modules/login/login_screen.dart';
@@ -7,6 +8,7 @@ import 'package:medecine_app/routes.dart';
 
 import 'data/provider/api.dart';
 import 'modules/doctor/doctor_screen.dart';
+import 'modules/hospitals/hospital_bindings.dart';
 import 'modules/hospitals/hospitals_screen.dart';
 import 'modules/patient/patient_binding.dart';
 import 'modules/patient/patient_screen.dart';
@@ -35,6 +37,7 @@ void main() {
         GetPage(
           name: Routes.Hospitals,
           page: () => HospitalsScreen(),
+          binding: HospitalsBinding()
         ),
       ]));
 }
@@ -42,6 +45,7 @@ void main() {
 initDependencies() {
   Get.put(ApiClient());
   Get.put(UserRepository());
+  Get.put(HospitalsRepository());
 }
 
 class HomePage extends StatelessWidget {
