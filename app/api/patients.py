@@ -15,7 +15,7 @@ async def get_patient_profile(user_id: str):
     """
     patient_profile = Repository.get_patient_by_id(user_id)
 
-    return {'data': patient_profile, 'result': True}
+    return {'data': patient_profile, 'result': bool(patient_profile)}
 
 
 @router.get('/patients/')
@@ -27,4 +27,4 @@ async def get_all_patient():
     """
     list_patients = Repository.get_all_patients()
 
-    return {'data': list_patients, 'result': True}
+    return {'data': list_patients, 'result': bool(list_patients)}

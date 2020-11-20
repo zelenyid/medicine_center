@@ -16,7 +16,7 @@ async def get_doctor_profile(user_id: str):
     """
     doctor_profile = Repository.get_doctor_by_id(user_id)
 
-    return {'data': doctor_profile, 'result': True}
+    return {'data': doctor_profile, 'result': bool(doctor_profile)}
 
 
 @router.get('/doctors/')
@@ -28,4 +28,4 @@ async def get_all_doctors():
     """
     list_doctors = Repository.get_all_doctors()
 
-    return {'data': list_doctors, 'result': True}
+    return {'data': list_doctors, 'result': bool(list_doctors)}

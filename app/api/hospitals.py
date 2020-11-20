@@ -13,7 +13,7 @@ async def get_hospital_profile(hospital_id: str):
     """
     hospital_profile = Repository.get_hospital_by_id(hospital_id)
 
-    return {'data': hospital_profile, 'result': True}
+    return {'data': hospital_profile, 'result': bool(hospital_profile)}
 
 
 @router.get('/hospitals')
@@ -24,7 +24,7 @@ async def get_all_hospitals():
     """
     list_hospitals = Repository.get_all_hospitals()
 
-    return {'data': list_hospitals, 'result': True}
+    return {'data': list_hospitals, 'result': bool(list_hospitals)}
 
 
 @router.get('/hospital/{hospital_id}/doctors/')
@@ -36,4 +36,4 @@ async def get_hospitals_doctors(hospital_id: str):
     """
     list_doctors = Repository.get_doctors_by_hospital_id(hospital_id)
 
-    return {'data': list_doctors, 'result': True}
+    return {'data': list_doctors, 'result': bool(list_doctors)}

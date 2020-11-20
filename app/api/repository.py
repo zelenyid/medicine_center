@@ -74,16 +74,16 @@ class Repository:
     def __update_obj(cls, collection, obj_id, new_obj):
         if obj_id in collection.get_ids():
             collection.update_obj_by_id(obj_id, dict(new_obj))
-            return 'Success update'
+            return 'Success update', True
         else:
-            return 'Can\'n found by this id'
+            return 'Can\'n found by this id', False
 
     @classmethod
     def __delete_obj(cls, collection, obj_id):
         if obj_id in collection.get_ids():
             collection.delete_obj_by_id(obj_id)
-            return 'Success delete'
-        return 'Can\'n found by this id'
+            return 'Success delete', True
+        return 'Can\'n found by this id', False
 
     @classmethod
     def get_patient_by_id(cls, user_id):
