@@ -1,7 +1,5 @@
 from fastapi import APIRouter
 
-from app.database.hospital import HospitalCollection
-from app.database.doctor import DoctorsCollection
 from app.api.repository import Repository
 
 
@@ -13,7 +11,7 @@ async def get_hospital_profile(hospital_id: str):
     """
     Get data for hospital profile
     """
-    hospital_profile = Repository.get_obj_by_id(HospitalCollection, hospital_id)
+    hospital_profile = Repository.get_hospital_by_id(hospital_id)
 
     return {'data': hospital_profile, 'result': True}
 
@@ -24,7 +22,7 @@ async def get_all_hospitals():
     Get all hospitals from database
     :return: list of hospitals
     """
-    list_hospitals = Repository.get_all_items(HospitalCollection)
+    list_hospitals = Repository.get_all_hospitals()
 
     return {'data': list_hospitals, 'result': True}
 
@@ -36,6 +34,6 @@ async def get_hospitals_doctors(hospital_id: str):
     :param hospital_id: hospital's id
     :return: list of doctors
     """
-    list_doctors = Repository.get_all_users(DoctorsCollection, hospital_id=hospital_id)
+    list_doctors = Repository.get_doctors_by_hospital_id(hospital_id)
 
     return {'data': list_doctors, 'result': True}

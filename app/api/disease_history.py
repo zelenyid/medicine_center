@@ -21,8 +21,7 @@ async def get_disease_histories(patient_id: str):
     :param patient_id:
     :return: list of histtories
     """
-
-    histories_patient = Repository.get_all_items(HistoriesCollection, patient_id=patient_id)
+    histories_patient = Repository.get_histories_by_patient_id(patient_id)
 
     return {'data': histories_patient, 'result': True}
 
@@ -34,7 +33,7 @@ async def get_history(history_id: str):
     :param history_id: id of history in the database
     :return: histories with history_id
     """
-    history = Repository.get_obj_by_id(HistoriesCollection, history_id)
+    history = Repository.get_history_by_id(history_id)
 
     return {'data': history, 'result': True}
 
@@ -46,7 +45,7 @@ async def add_history(history: DiseaseHistoryScheme):
     :param history: dict of data to add to database
     :return:
     """
-    Repository.insert_obj_to_collection(HistoriesCollection, history)
+    Repository.add_history(history)
 
     return {'description': 'Success add', 'result': True}
 
@@ -59,7 +58,7 @@ async def update_history(history_id: str, history: DiseaseHistoryScheme):
     :param history: dict of data to add to database
     :return:
     """
-    result = Repository.update_obj(HistoriesCollection, history_id, history)
+    result = Repository.update_history(history_id, history)
 
     return {'description': result, 'result': True}
 
@@ -71,7 +70,7 @@ async def delete_history(history_id: str):
     :param history_id: id of history in the database
     :return:
     """
-    result = Repository.delete_obj(HistoriesCollection, history_id)
+    result = Repository.delete_history(history_id)
 
     return {'description': result, 'result': True}
 
@@ -85,7 +84,7 @@ async def upload_file(history_id: str, file: UploadFile = File(...)):
     :return:
     """
     if history_id in HistoriesCollection.get_ids():
-        if not Repository.get_obj_by_id(HistoriesCollection, history_id)['file_name']:
+        if not Repository.get_history_by_id(history_id)['file_name']:
             with open(file.filename, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
 
@@ -98,7 +97,7 @@ async def upload_file(history_id: str, file: UploadFile = File(...)):
 
             os.remove('app/disease_storage/' + new_filename)
 
-            Repository.update_obj(HistoriesCollection, history_id, {'file_name': new_filename})
+            Repository.update_history(history_id, {'file_name': new_filename})
 
             return {'description': 'Success add file', 'result': True}
         else:
@@ -110,7 +109,7 @@ async def upload_file(history_id: str, file: UploadFile = File(...)):
 @router.get("/download/{history_id}")
 async def download_file(history_id: str):
     if history_id in HistoriesCollection.get_ids():
-        filename = Repository.get_obj_by_id(HistoriesCollection, history_id)['file_name']
+        filename = Repository.get_history_by_id(history_id)['file_name']
 
         if filename not in os.listdir(CLEARED_DIR):
             file_uploader = FileUploader()
