@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:medecine_app/data/utils/exceptions.dart';
@@ -53,6 +54,17 @@ class ApiClient {
         }
       }
     }
+  }
+
+  Future uploadHistoryFile(filePath, historyId) async {
+    FormData formdata = FormData.fromMap({
+      "file": await MultipartFile.fromFile(filePath, filename: '$historyId'),
+    });
+    Response response =
+        await _dio.post("history/uploadfile/$historyId", data: formdata);
+    print(response);
+    print(response.data);
+    return response;
   }
 
   Future _authenticatedRequest(path,
@@ -128,6 +140,11 @@ class ApiClient {
 
   getDesiaseHistoriesById(String userId) async {
     return await _authenticatedRequest('history/$userId',
+        method: http_method.GET);
+  }
+
+  downloadHistoryFile(String historyId) async {
+    return await _authenticatedRequest('history/download/$historyId',
         method: http_method.GET);
   }
 }

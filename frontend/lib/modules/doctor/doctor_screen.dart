@@ -211,7 +211,7 @@ class DoctorScreen extends GetView<DoctorController> {
                       style: TextStyle(fontSize: 32),
                     )),
                 Obx(() => Text(
-                      "Heart Speailist",
+                      "${controller?.userData?.value?.positing}",
                       style: TextStyle(fontSize: 19, color: Colors.grey),
                     )),
                 Obx(() => Text(
