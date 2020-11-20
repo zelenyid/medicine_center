@@ -13,7 +13,7 @@ async def get_hospital_profile(hospital_id: str):
     """
     Get data for hospital profile
     """
-    hospital_data = HospitalCollection.get_one_obj({'_id': hospital_id})['data']
+    hospital_data = HospitalCollection.get_one_obj({'_id': hospital_id})
 
     if not hospital_data:
         return {'data': {}, 'result': False}, 200

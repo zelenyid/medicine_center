@@ -16,6 +16,7 @@ async def get_patient_profile(user_id: str):
     """
 
     user = UsersCollection.get_one_obj({'_id': user_id})
+
     if user:
         user_data = UsersCollection.to_json(user)
         patient = PatientsCollection.get_one_obj({'user_id': user_id})
