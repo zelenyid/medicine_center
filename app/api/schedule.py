@@ -7,7 +7,7 @@ from fastapi import APIRouter, File, UploadFile
 
 # add correct db classes. create if don't exist
 # from app.validators.schemes.user_schemes import DiseaseHistoryScheme
-from app.validators.schemes.user_schemes import ScheduleScheme
+from app.validators.schemes.schedule_scheme import ScheduleScheme
 from app.database.doctor import DoctorsCollection
 from app.database.patient import PatientsCollection
 from app.database.hospital import HospitalCollection

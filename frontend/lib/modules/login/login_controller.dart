@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+
 import 'package:medecine_app/data/models/user_model.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
 import 'package:medecine_app/data/utils/exceptions.dart';
@@ -28,12 +29,10 @@ class LoginController extends GetxController {
     } on NotAuthorizedException catch (e) {
       print(e.message);
       Get.snackbar('Session expired', 'Login to your account');
+    } on DioError catch (e) {
+      Get.snackbar('Error', 'Connection troubles...');
+      print('Dio Error: ${e.message}');
     } catch (e) {
-      if (e is DioError) {
-        Get.snackbar('Error', 'Connection troubles...');
-        print('Dio Error: ${e.message}');
-      }
-      print(e);
       print(e);
     }
   }
