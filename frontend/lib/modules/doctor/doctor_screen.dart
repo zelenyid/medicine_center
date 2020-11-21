@@ -5,6 +5,7 @@ import 'package:medecine_app/ui/appbar/base_appbar.dart';
 import 'package:medecine_app/ui/buttons/call_button.dart';
 import 'package:medecine_app/ui/buttons/email_button.dart';
 
+
 class DoctorScreen extends GetView<DoctorController> {
   @override
   Widget build(BuildContext context) {
@@ -27,14 +28,16 @@ class DoctorScreen extends GetView<DoctorController> {
               SizedBox(
                 height: 16,
               ),
-              Obx(
-                () => Text("Gender: ${controller?.userData?.value?.gender}",
-                    style: TextStyle(color: Colors.grey, fontSize: 16)),
+              Obx(() => Text(
+                    "Gender: ${controller?.userData?.value?.gender}",
+                    style: TextStyle(color: Colors.grey, fontSize: 16)
+                  ),
               ),
               Obx(() => Text(
                     "Phone number: ${controller?.userData?.value?.phoneNumber}",
                     style: TextStyle(color: Colors.grey, fontSize: 16),
-                  )),
+                  ),
+              ),
               SizedBox(
                 height: 24,
               ),
@@ -165,11 +168,13 @@ class DoctorScreen extends GetView<DoctorController> {
                       height: 3,
                     ),
                     Container(
-                        width: MediaQuery.of(context).size.width - 268,
-                        child: Obx(() => Text(
-                              "${controller?.userData?.value?.hospitalId}",
-                              style: TextStyle(color: Colors.grey),
-                            )))
+                      width: MediaQuery.of(context).size.width - 268,
+                      child: Obx(() => Text(
+                            "${controller?.userData?.value?.hospitalId}",
+                            style: TextStyle(color: Colors.grey),
+                          )
+                      )
+                    )
                   ],
                 )
               ],
@@ -177,7 +182,6 @@ class DoctorScreen extends GetView<DoctorController> {
             SizedBox(
               height: 20,
             ),
-//
           ],
         ),
         Image.asset(
@@ -248,11 +252,12 @@ class IconTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(right: 16),
       child: Container(
-          height: 45,
-          width: 45,
-          decoration: BoxDecoration(
-              color: backColor, borderRadius: BorderRadius.circular(15)),
-          child: iconButton),
+        height: 45,
+        width: 45,
+        decoration: BoxDecoration(
+            color: backColor, borderRadius: BorderRadius.circular(15)
+        ),
+        child: iconButton),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:medecine_app/config.dart';
 import 'package:medecine_app/data/utils/exceptions.dart';
+import 'package:intl/intl.dart';
 
 enum http_method { GET, POST }
 
@@ -21,7 +22,7 @@ class ApiClient {
 
   String _accessToken;
   String _refreshToken;
-  // Todo: get access token from some store
+  // TODO: get access token from some store
   get accessToken => _accessToken;
   get refreshToken => _refreshToken;
 
@@ -32,7 +33,46 @@ class ApiClient {
         'Authorization': 'Authorization-Token $refreshToken'
       });
 
-  Future login(email, password) async {
+  Future register(
+      String email,
+      String password1,
+      String password2,
+      String name,
+      String surname,
+      String patronymic,
+      String phone_number,
+      String gender,
+      String profession,
+      String address,
+      DateTime birthday) async {
+    String birthdayStr = DateFormat("yyyy-MM-dd").format(birthday);
+    // print('birthday and String: $birthday $birthdayStr');
+
+    Response response = await _dio.post(
+      '/register',
+      data: {
+        'email': email,
+        'password1': password1,
+        'password2': password2,
+        'name': name,
+        'surname': surname,
+        'patronymic': patronymic,
+        'phone_number': phone_number,
+        'gender': gender,
+        'profession': profession,
+        'address': address,
+        'birthday': birthdayStr,
+      },
+    );
+    print('api.dart: response - ${response}');
+    if (response.statusCode == 200) {
+      if (response.data["result"] == true) {
+        return response;
+      }
+    }
+  }
+
+  Future login(String email, String password) async {
     Response response = await _dio.post(
       '/login',
       data: {'email': email, 'password': password},
@@ -122,18 +162,18 @@ class ApiClient {
   getDoctorProfile() {}
 
   getPatientByID(userID) async {
-    print('get patient');
+    print('get patient $userID');
     return await _authenticatedRequest('/profile/patient/$userID',
         method: http_method.GET);
   }
 
   getDoctorByID(userID) async {
-    print('getdoctror');
+    print('get doctor $userID');
     return await _authenticatedRequest('/profile/doctor/$userID',
         method: http_method.GET);
   }
 
-  getDesiaseHistoriesById(String userId) async {
+  getDiseaseHistoriesById(String userId) async {
     return await _authenticatedRequest('history/$userId',
         method: http_method.GET);
   }
