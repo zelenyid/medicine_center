@@ -13,8 +13,8 @@ from app.database.patient import PatientsCollection
 from app.database.hospital import HospitalCollection
 from app.database.schedule import ScheduleCollection
 
-
 router = APIRouter()
+
 
 @router.get('/schedule/{doctor_id}')
 async def get_schedule(doctor_id: str):
@@ -24,11 +24,14 @@ async def get_schedule(doctor_id: str):
     :return: schedule_data
     """
     schedule_data = ScheduleCollection.get_objs({'doctor_id': str(doctor_id)},
-                                                 fields=('_id', 'doctor_id', 'weekDay', 'startDateTime', 'finishDateTime', 'hospital', 'room'))
+                                                fields=(
+                                                '_id', 'doctor_id', 'weekDay', 'startDateTime', 'finishDateTime',
+                                                'hospital', 'room'))
     if not schedule_data:
         return {'data': {}, 'result': False}
 
     return {'data': schedule_data, 'result': True}
+
 
 @router.post('/schedule/add')
 async def add_schedule(schedule: ScheduleScheme):
@@ -39,6 +42,7 @@ async def add_schedule(schedule: ScheduleScheme):
     """
     ScheduleCollection.insert_obj(dict(schedule))
     return {'description': 'Addition successful', 'result': True}
+
 
 @router.delete('/schedule/delete/{schedule_id}')
 async def delete_schedule(schedule_id: str):
@@ -51,6 +55,7 @@ async def delete_schedule(schedule_id: str):
         ScheduleCollection.delete_obj_by_id(schedule_id)
         return {'description': 'Delete successful', 'result': True}
     return {'description': 'Can\'t find schedule by this id', 'result': False}
+
 
 @router.put('/schedule/update/{schedule_id}')
 async def update_schedule(schedule_id: str, new_schedule: ScheduleScheme):

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medecine_app/modules/doctor/doctor_controller.dart';
 import 'package:medecine_app/ui/appbar/base_appbar.dart';
 import 'package:medecine_app/ui/buttons/call_button.dart';
 import 'package:medecine_app/ui/buttons/email_button.dart';
-
 
 class DoctorScreen extends GetView<DoctorController> {
   @override
@@ -28,15 +29,15 @@ class DoctorScreen extends GetView<DoctorController> {
               SizedBox(
                 height: 16,
               ),
-              Obx(() => Text(
-                    "Gender: ${controller?.userData?.value?.gender}",
-                    style: TextStyle(color: Colors.grey, fontSize: 16)
-                  ),
+              Obx(
+                () => Text("Gender: ${controller?.userData?.value?.gender}",
+                    style: TextStyle(color: Colors.grey, fontSize: 16)),
               ),
-              Obx(() => Text(
-                    "Phone number: ${controller?.userData?.value?.phoneNumber}",
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
+              Obx(
+                () => Text(
+                  "Phone number: ${controller?.userData?.value?.phoneNumber}",
+                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                ),
               ),
               SizedBox(
                 height: 24,
@@ -69,9 +70,10 @@ class DoctorScreen extends GetView<DoctorController> {
               borderRadius: BorderRadius.circular(20.0),
             ),
             color: Color(0xFF73AEF5),
-            child: new InkWell(
+            child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () => print("tapped"),
+              onTap: () =>
+                  showDoctorSchedule(context, controller?.userData?.value?.id),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                 child: Row(
@@ -168,13 +170,11 @@ class DoctorScreen extends GetView<DoctorController> {
                       height: 3,
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width - 268,
-                      child: Obx(() => Text(
-                            "${controller?.userData?.value?.hospitalId}",
-                            style: TextStyle(color: Colors.grey),
-                          )
-                      )
-                    )
+                        width: MediaQuery.of(context).size.width - 268,
+                        child: Obx(() => Text(
+                              "${controller?.userData?.value?.hospitalId}",
+                              style: TextStyle(color: Colors.grey),
+                            )))
                   ],
                 )
               ],
@@ -239,6 +239,62 @@ class DoctorScreen extends GetView<DoctorController> {
       ],
     );
   }
+
+  showDoctorSchedule(context, String hospitalId) {
+    showDialog(
+        context: Get.context,
+        builder: (context) => (AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            content: Container(
+                width: 400,
+                constraints: BoxConstraints(maxHeight: 400),
+                child: Column(children: [
+                  Text(
+                    'Doctor Schedule',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Expanded(
+                      child: FutureBuilder(
+                          future: controller.getScheduleByDoctorId(hospitalId),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                    itemCount: snapshot.data.length,
+                                    padding: EdgeInsets.all(20),
+                                    itemBuilder: (context, index) {
+                                      final DateFormat formatter =
+                                          DateFormat('Hm');
+                                      String startTime = formatter.format(
+                                          snapshot.data[index].startTime);
+                                      String finishTime = formatter.format(
+                                          snapshot.data[index].finishTime);
+
+                                      print(
+                                          'snapshot.data[index] ${snapshot.data[index]}');
+                                      return ListTile(
+                                        leading:
+                                            Icon(FlutterIcons.schedule_mdi),
+                                        title: Text(snapshot.data[index].weekDay
+                                            .toString()),
+                                        subtitle: Text(
+                                            'From  ${startTime} to ${finishTime}'),
+                                        // Text(snapshot.data[index].room
+                                        //         .toString() ??
+                                        //     ''),
+                                        //  onTap: ()=>Get.to(Routes.),
+                                      );
+                                    });
+                              }
+                            }
+                            return Container();
+                          })
+                      // )
+                      )
+                ])))));
+  }
 }
 
 class IconTile extends StatelessWidget {
@@ -252,12 +308,11 @@ class IconTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(right: 16),
       child: Container(
-        height: 45,
-        width: 45,
-        decoration: BoxDecoration(
-            color: backColor, borderRadius: BorderRadius.circular(15)
-        ),
-        child: iconButton),
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+              color: backColor, borderRadius: BorderRadius.circular(15)),
+          child: iconButton),
     );
   }
 }

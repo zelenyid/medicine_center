@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:medecine_app/config.dart';
 import 'package:medecine_app/data/utils/exceptions.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
-enum http_method { GET, POST }
+enum http_method { GET, POST, DOWNLOAD }
 
 class ApiClient {
   static BaseOptions _baseOptions = BaseOptions(
@@ -109,6 +112,12 @@ class ApiClient {
       request = () => _dio.get(path, options: authHeaderOptions);
     } else if (method == http_method.POST) {
       request = () => _dio.post(path, data: data, options: authHeaderOptions);
+    } else if (method == http_method.DOWNLOAD) {
+      Directory appDocDir = await getExternalStorageDirectory();
+      String appDocPath = '${appDocDir.path}${Random().nextInt(10000000)}.pdf';
+      recieveCallback(a, b) => print('recieved data');
+      request = () => _dio.download(path, appDocPath,
+          onReceiveProgress: recieveCallback, options: authHeaderOptions);
     }
     Response response = await request();
     if (response.statusCode == 200) {
@@ -157,6 +166,11 @@ class ApiClient {
         method: http_method.GET);
   }
 
+  getScheduleByDoctorId(doctorId) async {
+    return await _authenticatedRequest('/schedule/$doctorId',
+        method: http_method.GET);
+  }
+
   getAllDoctors() {}
 
   getDoctorProfile() {}
@@ -180,7 +194,7 @@ class ApiClient {
 
   downloadHistoryFile(String historyId) async {
     return await _authenticatedRequest('history/download/$historyId',
-        method: http_method.GET);
+        method: http_method.DOWNLOAD);
   }
 }
 
