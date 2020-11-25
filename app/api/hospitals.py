@@ -37,4 +37,3 @@ async def get_hospitals_doctors(hospital_id: str):
     list_doctors = Repository.get_doctors_by_hospital_id(hospital_id)
 
     return {'data': list_doctors, 'result': bool(list_doctors)}
-    
