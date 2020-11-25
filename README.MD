@@ -5,6 +5,7 @@
    * git clone https://github.com/NazarKostetskiy/medicine_center
    * cd medicine_center
    * pipenv install
+   * change baseUrl in config.dart in frontend directory to yours and build flutter project
    * ##### Setup storage file:
         * <a href="https://console.cloud.google.com/cloud-resource-manager">Select or create a Cloud Platform project</a>
         * <a href="https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project">Enable billing for your project</a>
