@@ -44,7 +44,7 @@ class MongoBase(abc.ABC, metaclass=Meta):
 
     @classmethod
     def get_all_objects(cls, projection=None):
-        return {'data': list(cls.collection.find({}, projection=projection)), 'result': True}
+        return list(cls.collection.find({}, projection=projection))
 
     @classmethod
     def get_one_obj(cls, filter, projection=None):
