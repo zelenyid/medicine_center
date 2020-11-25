@@ -6,6 +6,8 @@ from bson.errors import InvalidId
 from pymongo import MongoClient
 
 from config import DATABASE_NAME, DB_SOURCE
+from bson.objectid import ObjectId
+from bson.errors import InvalidId
 
 
 # TODO: Add validation for attributes in __new__ method
@@ -51,7 +53,6 @@ class MongoBase(abc.ABC, metaclass=Meta):
                 filter['_id'] = ObjectId(filter['_id'])
             except InvalidId:
                 return
-
         return cls.to_json(cls.collection.find_one(filter, projection=projection))
 
     @classmethod

@@ -5,7 +5,7 @@ import uuid
 from fastapi import APIRouter, File, UploadFile
 from starlette.responses import FileResponse
 
-from app.validators.schemes.user_schemes import DiseaseHistoryScheme
+from app.validators.schemes.disease_history_scheme import DiseaseHistoryScheme
 from app.disease_storage.upload_file import FileUploader
 from app.database.disease_history import HistoriesCollection
 from app.api.repository import Repository
