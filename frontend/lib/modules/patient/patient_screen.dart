@@ -289,16 +289,14 @@ class PatientScreen extends GetView<PatientController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Obx(() {
-                  print(controller.userModel?.value);
                   return Text(
                     '${controller.userModel?.value?.name}',
                     style: TextStyle(fontSize: 24),
                   );
                 }),
                 Obx(() {
-                  print(controller.userModel?.value?.surname);
                   return Text(
-                    '${controller.userModel?.value?.name}',
+                    '${controller.userModel?.value?.surname}',
                     style: TextStyle(fontSize: 24),
                   );
                 }),
