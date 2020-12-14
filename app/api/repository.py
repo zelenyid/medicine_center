@@ -21,7 +21,7 @@ class Repository:
         """
         Get all user data combine user data and collection data
         :param collection: collection object
-        :param filter_data: filter for data
+        :param filter_data: filter for fields in :collection:   !
         :param fields: fields to output
         :return: list of user's data
         """
@@ -38,9 +38,40 @@ class Repository:
         return user_list
 
     @classmethod
+    def __get_users_where(cls, collection, **filter):   # in theory, can replace __get_all_users as more general
+        """
+        Get all user data combine user data and collection data
+        :param collection: collection object
+        :param filter_data: filter for fields in both :collection: and UserCollection 
+        :param fields: fields to output
+        :return: list of user's data
+
+        Birthday filtering doesn't work. Reason unknown 
+        """
+        if collection is DoctorsCollection:
+            role = 'doctor'
+        elif collection is PatientsCollection:
+            role = 'patient'
+        user_list = collection.to_json(UsersCollection.get_objs(dict(role=role)))  # getting users by role(only filtering atr we know)(for speed??)
+    
+        for i in range(len(user_list)):   # getting addditional data from role collection and merging with users
+            role_data = collection.get_one_obj(dict(user_id=user_list[i]['_id'])) 
+            user_list[i].update(role_data)
+            del user_list[i]['password']
+
+        res = []
+        for i in range(len(user_list)):  # filtering loop
+            for atr, reqVal in filter.items():   
+                if user_list[i][atr] != reqVal:   
+                    break
+            else: 
+                res.append(user_list[i]) # executed if loop didn't break
+        return res
+
+    @classmethod
     def __get_user_profile(cls, collection, user_id):
         """
-        Get all data about user by id
+        Get all data about user by id//
         :param collection: collection of user
         :param user_id: user's id
         :return: user's data
@@ -92,6 +123,12 @@ class Repository:
         return patient_profile
 
     @classmethod
+    def get_patient_by_dict(cls, filter_dict):
+        patients = cls.__get_users_where(PatientsCollection, **filter_dict)
+        
+        return patients
+
+    @classmethod
     def get_all_patients(cls):
         list_patients = cls.__get_all_users(PatientsCollection)
 
@@ -102,6 +139,12 @@ class Repository:
         doctor_profile = cls.__get_user_profile(DoctorsCollection, user_id)
 
         return doctor_profile
+
+    @classmethod
+    def get_doctor_by_dict(cls, filter_dict):
+        list_doctors = cls.__get_users_where(DoctorsCollection, **filter_dict)
+        
+        return list_doctors
 
     @classmethod
     def get_all_doctors(cls):
