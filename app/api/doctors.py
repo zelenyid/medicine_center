@@ -19,7 +19,7 @@ async def get_doctor_profile(user_id: str):
     return {'data': doctor_profile, 'result': bool(doctor_profile)}
 
 @router.post('/doctors/search/')
-async def get_doctors_by_dict(filter:dict):
+async def get_doctors_by_filter(filter:dict):
     """
     Get doctors list by features for search engine.
 

@@ -29,5 +29,6 @@
             
 ## Run server:
    * pipenv run uvicorn run:app
+   * pipenv run uvicorn run:chat 
 ## DEBUG:
    * http://127.0.0.1:8000/docs

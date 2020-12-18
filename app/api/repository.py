@@ -1,9 +1,12 @@
 from app.database.users import UsersCollection
-from app.database.patient import PatientsCollection
 from app.database.doctor import DoctorsCollection
+from app.database.patient import PatientsCollection
 from app.database.hospital import HospitalCollection
+from app.database.schedule import ScheduleCollection
+from app.database.appointment import AppointmentsCollection
 from app.database.disease_history import HistoriesCollection
 
+from datetime import datetime
 
 class Repository:
     @classmethod
@@ -38,8 +41,9 @@ class Repository:
         return user_list
 
     @classmethod
-    def __get_users_where(cls, collection, **filter):   # in theory, can replace __get_all_users as more general
+    def __get_users_where(cls, collection, **filter):  
         """
+         # in theory, can replace __get_all_users as more general
         Get all user data combine user data and collection data
         :param collection: collection object
         :param filter_data: filter for fields in both :collection: and UserCollection 
@@ -183,6 +187,34 @@ class Repository:
         return history
 
     @classmethod
+    def get_schedule(cls, doctor_id):
+        schedule_data = ScheduleCollection.get_objs({'doctor_id': str(doctor_id)},
+                                                    fields=(
+                                                    '_id', 'doctor_id', 'weekDay', 'startDateTime', 'finishDateTime',
+                                                    'hospital', 'room'))
+        if not schedule_data:
+            return {'data': {}, 'result': False}
+        return {'data': schedule_data, 'result': True}
+
+    @classmethod
+    def get_appointments_by_patient(cls, patient_id):
+        result = AppointmentsCollection.get_objs({'patient_id': patient_id})
+
+        return result
+
+    @classmethod
+    def get_appointments_by_doctor(cls, doctor_id):
+        result = AppointmentsCollection.get_objs({'doctor_id': doctor_id})
+
+        return result
+
+    @classmethod
+    def get_appointments_by_filter(cls, filter):
+        result = AppointmentsCollection.get_objs(filter)
+
+        return result
+
+    @classmethod
     def add_history(cls, history):
         cls.__insert_obj_to_collection(HistoriesCollection, history)
         
@@ -203,5 +235,17 @@ class Repository:
     @classmethod
     def delete_history(cls, history_id):
         result = cls.__delete_obj(HistoriesCollection, history_id)
+
+        return result
+
+    @classmethod
+    def add_appointment(cls, appointment):
+        result = cls.__insert_obj_to_collection(AppointmentsCollection, appointment)
+
+        return result
+
+    @classmethod
+    def delete_appointment(cls, appointment_id):
+        result = cls.__delete_obj(AppointmentsCollection, appointment_id)
 
         return result
