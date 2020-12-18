@@ -3,6 +3,8 @@ import shutil
 import uuid
 import os
 
+from app.api.repository import Repository
+
 from fastapi import APIRouter, File, UploadFile
 
 # add correct db classes. create if don't exist
@@ -23,14 +25,9 @@ async def get_schedule(doctor_id: str):
     :param doctor_id:
     :return: schedule_data
     """
-    schedule_data = ScheduleCollection.get_objs({'doctor_id': str(doctor_id)},
-                                                fields=(
-                                                '_id', 'doctor_id', 'weekDay', 'startDateTime', 'finishDateTime',
-                                                'hospital', 'room'))
-    if not schedule_data:
-        return {'data': {}, 'result': False}
+    result = Repository.get_schedule(doctor_id)
 
-    return {'data': schedule_data, 'result': True}
+    return result
 
 
 @router.post('/schedule/add')
