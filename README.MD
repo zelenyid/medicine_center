@@ -26,9 +26,16 @@
         * Move downloaded file to start direction of the project (near main.py)
         * Rename the file on "keys_service_account.json" or you can change on your file in the config.py
         ```JSON_KEYS_SERVICE_ACCOUNT = os.path.join(BASE_DIR, <FILE_NAME>)```
-            
+
+## Docker
+   ### Build:
+      * sudo docker build -t medicine_center .
+   ### Run container:
+      * docker run --env MONGODB_PASSWORD=$MONGODB_PASSWORD -d --name medicine_center -p 80:80 medicine_center
+
 ## Run server:
    * pipenv run uvicorn run:app
    * pipenv run uvicorn run:chat 
 ## DEBUG:
    * http://127.0.0.1:8000/docs
+
