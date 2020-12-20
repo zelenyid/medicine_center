@@ -33,6 +33,12 @@
    ### Run container:
       * docker run --env MONGODB_PASSWORD=$MONGODB_PASSWORD -d --name medicine_center -p 80:80 medicine_center
 
+## Docker compose
+   ### Build and up:
+      * sudo docker-compose -f "docker-compose.yml" up -d --build
+   ### Down:
+      * sudo docker-compose -f "docker-compose.yml" down
+
 ## Run server:
    * pipenv run uvicorn run:app
    * pipenv run uvicorn run:chat 
