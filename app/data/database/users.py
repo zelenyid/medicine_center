@@ -1,7 +1,7 @@
 from passlib.context import CryptContext
 import datetime
 
-from app.database.database import MongoBase
+from app.data.database.database import MongoBase
 from typing import Sequence, Tuple
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

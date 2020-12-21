@@ -2,13 +2,13 @@ import shutil
 import os
 import uuid
 
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File
 from starlette.responses import FileResponse
 
 from app.validators.schemes.disease_history_scheme import DiseaseHistoryScheme
 from app.disease_storage.upload_file import FileUploader
-from app.database.disease_history import HistoriesCollection
-from app.api.repository import Repository
+from app.data.database.disease_history import HistoriesCollection
+from app.data.repository import Repository
 from config import CLEARED_DIR
 
 router = APIRouter()
@@ -76,20 +76,26 @@ async def delete_history(history_id: str):
 
 
 @router.post("/uploadfile/{history_id}")
-async def upload_file(history_id: str, file: UploadFile = File(...)):
+async def upload_file(history_id: str, extension: str, file_bytes: bytes = File(...)):
     """
     upload file to google cloud storage
     :param history_id: id of history in the database
-    :param file: file to uploading
+    :param extension: name of file
+    :param file_bytes: file to uploading
     :return:
     """
     if history_id in HistoriesCollection.get_ids():
         if not Repository.get_history_by_id(history_id).get('file_name'):
-            with open(file.filename, "wb") as buffer:
-                shutil.copyfileobj(file.file, buffer)
+            # with open(file.filename, "wb") as buffer:
+            #     shutil.copyfileobj(file.file, buffer)
+            #
+            new_filename = str(uuid.uuid4()) + '.' + extension
 
-            new_filename = str(uuid.uuid4()) + '.' + file.filename.split('.')[-1]
-            os.renames(file.filename, new_filename)
+            f = open(new_filename, "wb")
+            f.write(file_bytes)
+            f.close()
+
+            # os.renames(file.filename, new_filename)
             shutil.move(new_filename, "app/disease_storage/")
 
             file_uploader = FileUploader()
