@@ -1,10 +1,8 @@
 from fastapi import APIRouter
 
-from app.api.repository import Repository
+from app.data.repository import Repository
 
 from app.validators.schemes.appointment_scheme import AppointmentScheme
-from app.database.appointment import AppointmentsCollection
-from app.database.schedule import ScheduleCollection
 
 router = APIRouter()
 

@@ -2,12 +2,11 @@ from fastapi.params import Depends
 from fastapi_jwt_auth import AuthJWT
 from starlette.responses import FileResponse
 from pydantic import ValidationError
-from datetime import datetime
 
 from app.validators.schemes.login_scheme import LoginScheme
 from app.validators.schemes.patient_create_scheme import RegisterScheme
-from app.database.users import UsersCollection
-from app.api.repository import Repository
+from app.data.database import UsersCollection
+from app.data.repository import Repository
 from app.main import app
 from fastapi import APIRouter
 

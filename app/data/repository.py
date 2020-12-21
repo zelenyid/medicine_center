@@ -1,12 +1,11 @@
-from app.database.users import UsersCollection
-from app.database.doctor import DoctorsCollection
-from app.database.patient import PatientsCollection
-from app.database.hospital import HospitalCollection
-from app.database.schedule import ScheduleCollection
-from app.database.appointment import AppointmentsCollection
-from app.database.disease_history import HistoriesCollection
+from app.data.database import UsersCollection
+from app.data.database import DoctorsCollection
+from app.data.database import PatientsCollection
+from app.data.database.hospital import HospitalCollection
+from app.data.database.schedule import ScheduleCollection
+from app.data.database.appointment import AppointmentsCollection
+from app.data.database.disease_history import HistoriesCollection
 
-from datetime import datetime
 
 class Repository:
     @classmethod

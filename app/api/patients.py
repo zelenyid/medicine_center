@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.repository import Repository
+from app.data.repository import Repository
 
 router = APIRouter()
 

@@ -1,19 +1,11 @@
-import json
-import shutil
-import uuid
-import os
+from app.data.repository import Repository
 
-from app.api.repository import Repository
-
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter
 
 # add correct db classes. create if don't exist
 # from app.validators.schemes.user_schemes import DiseaseHistoryScheme
 from app.validators.schemes.schedule_scheme import ScheduleScheme
-from app.database.doctor import DoctorsCollection
-from app.database.patient import PatientsCollection
-from app.database.hospital import HospitalCollection
-from app.database.schedule import ScheduleCollection
+from app.data.database.schedule import ScheduleCollection
 
 router = APIRouter()
 

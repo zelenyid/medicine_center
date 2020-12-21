@@ -1,7 +1,7 @@
-from pydantic import BaseModel, validator, ValidationError, root_validator
+from pydantic import BaseModel, validator, root_validator
 from datetime import datetime
 from typing import Optional
-from app.api.repository import Repository
+from app.data.repository import Repository
 
 class AppointmentScheme(BaseModel):
     doctor_id: str
