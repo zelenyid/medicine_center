@@ -94,12 +94,32 @@ class ApiClient {
     }
   }
 
-  Future uploadHistoryFile(filePath, historyId) async {
+  Future uploadHistoryFileFromPath(filePath, historyId) async {
     FormData formdata = FormData.fromMap({
       "file": await MultipartFile.fromFile(filePath, filename: '$historyId'),
     });
     Response response =
         await _dio.post("history/uploadfile/$historyId", data: formdata);
+    print(response);
+    print(response.data);
+    return response;
+  }
+
+  Future uploadHistoryFileFromBytes(bytes, historyId, String extention) async {
+    print(bytes);
+    print(
+        'MultipartFile: ${MultipartFile.fromBytes(bytes, filename: '$historyId')}');
+    FormData formdata = FormData.fromMap({
+      "file_bytes": MultipartFile.fromBytes(bytes, filename: '$historyId'),
+    });
+
+    Response response = await _dio.post(
+        "history/uploadfile/$historyId?extension=$extention",
+        data: formdata,
+        options: Options(headers: {
+          "content-type": "multipart/form-data",
+          Headers.contentLengthHeader: bytes.length
+        }));
     print(response);
     print(response.data);
     return response;
@@ -169,6 +189,11 @@ class ApiClient {
   getScheduleByDoctorId(doctorId) async {
     return await _authenticatedRequest('/schedule/$doctorId',
         method: http_method.GET);
+  }
+
+  searchPatientByFilter(Map filter) async {
+    return await _authenticatedRequest('/patients/search/',
+        method: http_method.POST, data: filter);
   }
 
   getAllDoctors() {}

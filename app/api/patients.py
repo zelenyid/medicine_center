@@ -28,7 +28,8 @@ async def get_patients_by_filter(filter: dict):
     """
     patients = Repository.get_patient_by_dict(filter)
 
-    return patients
+    return {'data': patients, 'result': True}
+
 
 
 @router.get('/patients/')

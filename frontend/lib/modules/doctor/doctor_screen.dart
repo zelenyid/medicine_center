@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medecine_app/data/models/patient_model.dart';
 import 'package:medecine_app/modules/doctor/doctor_controller.dart';
 import 'package:medecine_app/ui/appbar/base_appbar.dart';
 import 'package:medecine_app/ui/buttons/call_button.dart';
 import 'package:medecine_app/ui/buttons/email_button.dart';
+import 'package:medecine_app/ui/drawer/base_drawer.dart';
 
 class DoctorScreen extends GetView<DoctorController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
+      endDrawer:
+          controller.userRepository.userModel.value.runtimeType == PatientModel
+              ? PatientDrawer()
+              : DoctorsDrawer(),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -104,39 +110,39 @@ class DoctorScreen extends GetView<DoctorController> {
           width: 16,
         ),
         //   child:
-        Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            color: Color(0xFF73AEF5),
-            child: new InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () => print("tapped"),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(144, 202, 249, 1),
-                            borderRadius: BorderRadius.circular(16)),
-                        child: Icon(Icons.list_alt)),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: Text(
-                        "Doctor's Daily Post",
-                        style: TextStyle(color: Colors.white, fontSize: 17),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )),
+        // Card(
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(20.0),
+        //     ),
+        //     color: Color(0xFF73AEF5),
+        //     child: new InkWell(
+        //       borderRadius: BorderRadius.circular(20),
+        //       onTap: () => print("tapped"),
+        //       child: Container(
+        //         padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        //         child: Row(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: <Widget>[
+        //             Container(
+        //                 padding: EdgeInsets.all(8),
+        //                 decoration: BoxDecoration(
+        //                     color: Color.fromRGBO(144, 202, 249, 1),
+        //                     borderRadius: BorderRadius.circular(16)),
+        //                 child: Icon(Icons.list_alt)),
+        //             SizedBox(
+        //               width: 16,
+        //             ),
+        //             Container(
+        //               width: MediaQuery.of(context).size.width / 2,
+        //               child: Text(
+        //                 "Doctor's Daily Post",
+        //                 style: TextStyle(color: Colors.white, fontSize: 17),
+        //               ),
+        //             )
+        //           ],
+        //         ),
+        //       ),
+        //     )),
         // )
       ],
     );

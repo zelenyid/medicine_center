@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:medecine_app/data/models/patient_model.dart';
 import 'package:medecine_app/ui/appbar/base_appbar.dart';
 import 'package:medecine_app/ui/buttons/call_button.dart';
 import 'package:medecine_app/ui/buttons/email_button.dart';
@@ -14,7 +15,10 @@ class PatientScreen extends GetView<PatientController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(),
-      endDrawer: BaseDrawer(),
+      endDrawer:
+          controller.userRepository.userModel.value.runtimeType == PatientModel
+              ? PatientDrawer()
+              : DoctorsDrawer(),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -31,10 +35,6 @@ class PatientScreen extends GetView<PatientController> {
               ),
               SizedBox(
                 height: 16,
-              ),
-              Text(
-                "Kiyv.",
-                style: TextStyle(color: Colors.grey, fontSize: 16),
               ),
               Obx(() {
                 print(controller.userModel?.value);
@@ -57,7 +57,8 @@ class PatientScreen extends GetView<PatientController> {
               SizedBox(
                 height: 24,
               ),
-              buildAddress(context),
+              Obx(() => buildAddress(context,
+                  controller?.userModel?.value.address ?? 'Undefined')),
               buildActivityLayout(context),
               SizedBox(
                 width: 16,
@@ -221,7 +222,7 @@ class PatientScreen extends GetView<PatientController> {
         ));
   }
 
-  Row buildAddress(BuildContext context) {
+  Row buildAddress(BuildContext context, address) {
     return Row(
       children: <Widget>[
         Column(
@@ -251,7 +252,7 @@ class PatientScreen extends GetView<PatientController> {
                     Container(
                         width: MediaQuery.of(context).size.width - 268,
                         child: Text(
-                          "Bulvar Koltsova 19, Kyiv",
+                          address,
                           style: TextStyle(color: Colors.grey),
                         ))
                   ],
