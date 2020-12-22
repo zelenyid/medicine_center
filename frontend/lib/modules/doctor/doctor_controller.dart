@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
 import 'package:medecine_app/data/models/doctor_model.dart';
 import 'package:medecine_app/data/repository/doctors_repository.dart';
+import 'package:medecine_app/data/repository/user_repository.dart';
 
 class DoctorController extends GetxController {
   DoctorsRepository doctorsRepository = Get.find<DoctorsRepository>();
+  UserRepository userRepository = Get.find<UserRepository>();
+
   Rx<DoctorModel> userData = DoctorModel().obs;
 
   @override
