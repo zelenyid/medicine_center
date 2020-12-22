@@ -91,11 +91,13 @@ async def upload_file(history_id: str, extension: str, request: Request):
             #     shutil.copyfileobj(file.file, buffer)
             #
             new_filename = str(uuid.uuid4()) + '.' + extension
+
             body = b''
             async for chunk in request.stream():
                 body += chunk
             f = open(new_filename, "wb")
             f.write(body)
+
             f.close()
 
             # os.renames(file.filename, new_filename)
