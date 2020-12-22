@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 @router.post('/appointment/add')
-async def add_appointment(appointment:AppointmentScheme):
+async def add_appointment(appointment: AppointmentScheme):
     """
     Adds an appointment of patient with a doctor
     :param appointment: dictionary containing appointment details
@@ -18,8 +18,9 @@ async def add_appointment(appointment:AppointmentScheme):
     print(appointment)
     return status
 
+
 @router.delete('/appointment/delete')
-async def delete_appointment(appointment_id:str):
+async def delete_appointment(appointment_id: str):
     """
     Deletes an appointment with given id
     :param id: _id of the appointment
@@ -29,8 +30,9 @@ async def delete_appointment(appointment_id:str):
 
     return status
 
+
 @router.put('/appointment/get/patient{patient_id}')
-async def get_appointments_by_patient(patient_id:str):
+async def get_appointments_by_patient(patient_id: str):
     """
     Returns a list of appointments given patient_id
     :param patient_id: patient id
@@ -40,8 +42,9 @@ async def get_appointments_by_patient(patient_id:str):
 
     return appointments
 
+
 @router.put('/appointment/get/doctor{doctor_id}')
-async def get_appointments_by_doctor(doctor_id:str):
+async def get_appointments_by_doctor(doctor_id: str):
     """
     Returns a list of appointments given doctor_id
     :param doctor_id: doctor id
@@ -51,8 +54,9 @@ async def get_appointments_by_doctor(doctor_id:str):
 
     return appointments
 
+
 @router.put('/appointment/get')
-async def get_appointments_by_filter(filter:dict):
+async def get_appointments_by_filter(filter: dict):
     """
     Returns a list of appointments given filter
     :param filter: dictionary of what to search for
@@ -61,4 +65,3 @@ async def get_appointments_by_filter(filter:dict):
     appointments = Repository.get_appointments_by_filter(filter)
 
     return appointments
-

@@ -76,7 +76,7 @@ async def delete_history(history_id: str):
 
 
 @router.post("/uploadfile/{history_id}")
-async def upload_file(history_id: str, extension: str, file_bytes: bytes = File(...)):
+async def upload_file(history_id: str, extension: str = 'docx', file_bytes: bytes = File(...)):
     """
     upload file to google cloud storage
     :param history_id: id of history in the database

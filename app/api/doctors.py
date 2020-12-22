@@ -17,8 +17,9 @@ async def get_doctor_profile(user_id: str):
 
     return {'data': doctor_profile, 'result': bool(doctor_profile)}
 
+
 @router.post('/doctors/search/')
-async def get_doctors_by_filter(filter:dict):
+async def get_doctors_by_filter(filter: dict):
     """
     Get doctors list by features for search engine.
 
@@ -28,6 +29,7 @@ async def get_doctors_by_filter(filter:dict):
     list_doctors = Repository.get_doctor_by_dict(filter)
 
     return list_doctors
+
 
 @router.get('/doctors/')
 async def get_all_doctors():
@@ -39,5 +41,3 @@ async def get_all_doctors():
     list_doctors = Repository.get_all_doctors()
 
     return {'data': list_doctors, 'result': bool(list_doctors)}
-
-

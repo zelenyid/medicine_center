@@ -9,7 +9,7 @@ from starlette.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_utils.tasks import repeat_every
 
-from app.api import auth, default, hospitals, disease_history, doctors, patients, schedule, appointment
+from app.api import auth, default, hospitals, disease_history, doctors, patients, schedule, appointment, relationship
 from app.main import app
 from app.storage.token_storage import RedisTokenStorage
 from chat.api import message, repository
@@ -68,6 +68,7 @@ async def clean_history_file():
 
 
 app.include_router(default.router)
+app.include_router(relationship.router, tags=['relatives'])
 app.include_router(hospitals.router, tags=['hospital'])
 app.include_router(auth.router, prefix='/auth', tags=['auth'])
 app.include_router(disease_history.router, prefix='/history', tags=['history'])
