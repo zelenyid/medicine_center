@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medecine_app/data/repository/hospitals_repository.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
+import 'package:medecine_app/data/repository/analytics_repository.dart';
 import 'package:medecine_app/modules/doctor/doctor_bindings.dart';
 import 'package:medecine_app/modules/login/login_binding.dart';
 import 'package:medecine_app/modules/login/login_screen.dart';
@@ -16,13 +17,15 @@ import 'modules/hospitals/hospital_bindings.dart';
 import 'modules/hospitals/hospitals_screen.dart';
 import 'modules/patient/patient_binding.dart';
 import 'modules/patient/patient_screen.dart';
+import 'modules/analytics/analytics_binding.dart';
+import 'modules/analytics/analytics_screen.dart';
 
 void main() {
   initDependencies();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.Login,
+      initialRoute: Routes.Analytics,
       // theme: appThemeData,
       defaultTransition: Transition.fade,
       getPages: [
@@ -46,9 +49,15 @@ void main() {
           binding: DoctorsBinding(),
         ),
         GetPage(
-            name: Routes.Hospitals,
-            page: () => HospitalsScreen(),
-            binding: HospitalsBinding()),
+          name: Routes.Hospitals,
+          page: () => HospitalsScreen(),
+          binding: HospitalsBinding()
+        ),
+        GetPage(
+          name: Routes.Analytics,
+          page: () => AnalyticsScreen(),
+          binding: AnalyticsBinding()
+        ),
       ]
     )
   );
@@ -59,6 +68,7 @@ initDependencies() {
   Get.put(UserRepository());
   Get.put(HospitalsRepository());
   Get.put(DoctorsRepository());
+  Get.put(AnalyticsRepository());
 }
 
 class HomePage extends StatelessWidget {

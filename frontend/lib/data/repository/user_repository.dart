@@ -8,6 +8,7 @@ import 'package:medecine_app/data/models/doctor_model.dart';
 import 'package:medecine_app/data/models/patient_model.dart';
 import 'package:medecine_app/data/provider/api.dart';
 
+
 class UserRepository extends GetxService {
   ApiClient _apiClient = Get.find<ApiClient>();
   Rx userModel;

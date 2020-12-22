@@ -157,6 +157,17 @@ class ApiClient {
     return response;
   }
 
+  Future getAnalytics() async {
+    /// return all disease histories
+    Response response = await _dio.get('/analytics');
+    print('api.dart: analytics response - ${response}');
+    if (response.statusCode == 200) {
+      if (response.data["result"] == true) {
+        return response;
+      }
+    }
+  }
+
   getAllHospitals() async {
     return await _authenticatedRequest('/hospitals', method: http_method.GET);
   }

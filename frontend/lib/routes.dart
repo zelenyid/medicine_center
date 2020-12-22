@@ -4,4 +4,5 @@ class Routes {
   static const String Patient = '/patient';
   static const String Doctor = '/doctor/:userId';
   static const String Hospitals = '/hospitals';
+  static const String Analytics = '/analytics';
 }
