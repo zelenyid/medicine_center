@@ -11,8 +11,8 @@ import 'analytics_controller.dart';
 
 
 class AnalyticsScreen extends GetView<AnalyticsController> {
-  Map<String, int> _statusCount;
-  Map<String, int> _illnessCount;
+  Map<String, dynamic> _statusCount;
+  Map<String, dynamic> _illnessCount;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,9 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
     return FutureBuilder(
       future: controller.getAnalytics(),
       builder: (context, snapshot) {
-        return _analyticsContent();
+        return (snapshot.connectionState == ConnectionState.waiting)
+          ? CircularProgressIndicator()
+          : _analyticsContent();
       },
     );
   }
@@ -50,6 +52,7 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
             print('controller.analyticsModel?.value: ${controller.analyticsModel?.value}');
 
             _illnessCount = controller.analyticsModel?.value?.illnessCount;
+            print('controller.analyticsModel?.value?._illnessCount: ${controller.analyticsModel?.value?.illnessCount}');
             List<Map<String, dynamic>> illnessesData = [];
             _illnessCount?.forEach((illness, count) =>
                 illnessesData.add({
@@ -93,6 +96,7 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
           height: 300,
           child: Obx(() {
             _statusCount = controller.analyticsModel?.value?.statusCount;
+            print('controller.analyticsModel?.value?._statusCount: ${controller.analyticsModel?.value?.statusCount}');
             List<Map<String, dynamic>> statusesData = [];
             _statusCount?.forEach((status, count) =>
                 statusesData.add({
