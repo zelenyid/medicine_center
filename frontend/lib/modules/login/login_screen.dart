@@ -180,7 +180,7 @@ class LoginScreen extends GetView<LoginController> {
         await controller.login(emailController.text, passwordController.text);
     if (userModel != null) {
       if (userModel.value.runtimeType == PatientModel) {
-        Get.offAndToNamed(
+        Get.toNamed(
             Routes.Patient.replaceFirst(':userId', userModel.value.userId));
       } else {
         Get.offAndToNamed(
@@ -248,7 +248,7 @@ class LoginScreen extends GetView<LoginController> {
                       _buildPasswordTF(),
                       _buildForgotPasswordBtn(),
                       _buildLoginBtn(),
-                      _buildRegisterBtn(context),
+                      // _buildRegisterBtn(context),
                     ],
                   ),
                 ),

@@ -562,7 +562,7 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 30.0),
           _buildBasicDateField('Birthday'),
           _buildRegisterBtn(),
-          _buildLoginBtn(),
+          // _buildLoginBtn(),
         ],
       ),
     );

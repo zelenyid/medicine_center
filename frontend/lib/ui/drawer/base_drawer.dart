@@ -51,6 +51,11 @@ class DoctorsDrawer extends StatelessWidget {
             title: Text('Patients'),
             onTap: () => Get.toNamed(Routes.SearchPatient),
           ),
+          ListTile(
+            leading: Icon(Icons.medical_services_outlined),
+            title: Text('Register patient'),
+            onTap: () => Get.toNamed(Routes.Register),
+          ),
         ],
       ),
     ));
