@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:medecine_app/data/models/doctor_model.dart';
+import 'package:medecine_app/data/models/patient_model.dart';
 
 import 'package:medecine_app/routes.dart';
 import 'login_controller.dart';
@@ -177,7 +179,13 @@ class LoginScreen extends GetView<LoginController> {
     var userModel =
         await controller.login(emailController.text, passwordController.text);
     if (userModel != null) {
-      Get.offAndToNamed(Routes.Patient);
+      if (userModel.value.runtimeType == PatientModel) {
+        Get.toNamed(
+            Routes.Patient.replaceFirst(':userId', userModel.value.userId));
+      } else {
+        Get.offAndToNamed(
+            Routes.Doctor.replaceFirst(':userId', userModel.value.id));
+      }
     } else {
       print('something went wrong on login');
     }
@@ -240,7 +248,7 @@ class LoginScreen extends GetView<LoginController> {
                       _buildPasswordTF(),
                       _buildForgotPasswordBtn(),
                       _buildLoginBtn(),
-                      _buildRegisterBtn(context),
+                      // _buildRegisterBtn(context),
                     ],
                   ),
                 ),

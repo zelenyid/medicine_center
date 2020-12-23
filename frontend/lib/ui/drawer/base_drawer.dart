@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../../routes.dart';
 
-class BaseDrawer extends StatelessWidget {
-  const BaseDrawer({
+class PatientDrawer extends StatelessWidget {
+  const PatientDrawer({
     Key key,
   }) : super(key: key);
 
@@ -28,6 +28,38 @@ class BaseDrawer extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class DoctorsDrawer extends StatelessWidget {
+  const DoctorsDrawer({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child: SafeArea(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('Profile'),
+          ),
+          ListTile(
+            leading: Icon(Icons.medical_services_outlined),
+            title: Text('Patients'),
+            onTap: () => Get.toNamed(Routes.SearchPatient),
+          ),
+          ListTile(
+            leading: Icon(Icons.medical_services_outlined),
+            title: Text('Register patient'),
+            onTap: () => Get.toNamed(Routes.Register),
+          ),
+        ],
+      ),
+    ));
   }
 }
 

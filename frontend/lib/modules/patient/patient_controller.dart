@@ -1,25 +1,41 @@
-// import 'package:dio/dio.dart';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:medecine_app/data/models/patient_model.dart';
+import 'package:medecine_app/data/repository/patient_repository.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
 import 'package:file_picker/file_picker.dart';
 
 // import 'package:medecine_app/data/utils/exceptions.dart';
 
 class PatientController extends GetxController {
-  UserRepository _userRepository = Get.find<UserRepository>();
+  UserRepository userRepository = Get.find<UserRepository>();
+  PatientRepository _patientRepository = Get.find<PatientRepository>();
 
   final String title = 'Login';
-  get userModel => _userRepository.userModel;
-  get diseaseHistories => _userRepository.diseaseHistories;
+  Rx<PatientModel> userModel = PatientModel().obs;
+  get diseaseHistories => _patientRepository.diseaseHistories;
 
   @override
   void onInit() async {
     super.onInit();
-    await _userRepository.getDiseaseHistoryByUserId(userModel?.value?.id);
-    // _userRepository.login('test', 'test');
+    print('params: ${Get.parameters['userId']}');
+    await patientById(Get.parameters['userId']);
+    await _patientRepository.getDiseaseHistoryByUserId(userModel?.value?.id);
+  }
+
+  Future patientById(String userId) async {
+    Rx<PatientModel> res = await _patientRepository.getPatientById(userId);
+    print('res:${res.toJson()}');
+    if (res != null) {
+      userModel?.value = res.value;
+      print('email: ${res?.value?.email}');
+      userModel?.refresh();
+      print('user model: ${userModel.value.name}');
+
+      return userModel;
+    }
   }
 
   uploadFile(String historyId) async {
@@ -29,11 +45,14 @@ class PatientController extends GetxController {
     );
 
     if (result != null) {
-      File file = File(result.files.single.path);
-      print(file.path);
-
-      Response response =
-          await _userRepository.uploadHistoryFile(file.path, historyId);
+      print(result.files);
+      PlatformFile ourFile = result.files.first;
+      print(ourFile.extension);
+      Response response = GetPlatform.isWeb
+          ? await _patientRepository.uploadHistoryFile(historyId,
+              bytes: ourFile.bytes, extention: ourFile.extension)
+          : await _patientRepository.uploadHistoryFile(historyId,
+              filePath: File(ourFile.path).path);
       if (response.statusCode == 200) {
         if (response.data['result'] == true) {
           Get.snackbar('Success', 'File downloaded');
@@ -46,9 +65,8 @@ class PatientController extends GetxController {
     }
   }
 
-  downloadHistoryFile(String historyId)async{
-    await _userRepository.downloadHistoryFile(historyId);
-
+  downloadHistoryFile(String historyId) async {
+    await _patientRepository.downloadHistoryFile(historyId);
   }
 
   // Future<UserModel> login(String email, String password) async {

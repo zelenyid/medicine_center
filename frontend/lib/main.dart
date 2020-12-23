@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:medecine_app/data/provider/api.dart';
 import 'package:medecine_app/data/repository/hospitals_repository.dart';
+import 'package:medecine_app/data/repository/patient_repository.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
 import 'package:medecine_app/data/repository/doctors_repository.dart';
 import 'package:medecine_app/data/repository/analytics_repository.dart';
@@ -14,6 +15,8 @@ import 'package:medecine_app/modules/hospitals/hospital_bindings.dart';
 import 'package:medecine_app/modules/hospitals/hospitals_screen.dart';
 import 'package:medecine_app/modules/login/login_binding.dart';
 import 'package:medecine_app/modules/login/login_screen.dart';
+import 'package:medecine_app/modules/patient_search/patient_search_binding.dart';
+import 'package:medecine_app/modules/patient_search/patient_search_screen.dart';
 import 'package:medecine_app/modules/register/register_binding.dart';
 import 'package:medecine_app/modules/register/register_screen.dart';
 import 'package:medecine_app/modules/analytics/analytics_binding.dart';
@@ -23,8 +26,7 @@ import 'package:medecine_app/routes.dart';
 
 void main() {
   initDependencies();
-  runApp(
-    GetMaterialApp(
+  runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.Analytics,
       // theme: appThemeData,
@@ -59,6 +61,11 @@ void main() {
           page: () => AnalyticsScreen(),
           binding: AnalyticsBinding()
         ),
+        GetPage(
+            name: Routes.SearchPatient,
+            page: () => PatientSaerchScreen(),
+            binding: PatientScreenSearchBinding()
+        ),
       ]
     )
   );
@@ -70,14 +77,14 @@ initDependencies() {
   Get.put(HospitalsRepository());
   Get.put(DoctorsRepository());
   Get.put(AnalyticsRepository());
+  Get.put(PatientRepository());
 }
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Medecine app')),
-      body: Column(children: <Widget>[Text('Medecine application')])
-    );
+        appBar: AppBar(title: Text('Medecine app')),
+        body: Column(children: <Widget>[Text('Medecine application')]));
   }
 }

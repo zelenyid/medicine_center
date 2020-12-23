@@ -5,6 +5,7 @@ from app.data.database.hospital import HospitalCollection
 from app.data.database.schedule import ScheduleCollection
 from app.data.database.appointment import AppointmentsCollection
 from app.data.database.disease_history import HistoriesCollection
+from app.data.database.relationship import RelationshipCollection
 
 
 class Repository:
@@ -264,3 +265,19 @@ class Repository:
         result = cls.__delete_obj(AppointmentsCollection, appointment_id)
 
         return result
+
+    @classmethod
+    def add_relative(cls, relative):
+        cls.__insert_obj_to_collection(RelationshipCollection, relative)
+
+    @classmethod
+    def get_relatives(cls, user_id):
+        relatives = cls.__get_all_items(RelationshipCollection, user_id=user_id)
+
+        return relatives
+
+    @classmethod
+    def get_user_role_by_email(cls, email):
+        role = UsersCollection.to_json(UsersCollection.get_one_obj({'email': email}))['role']
+
+        return role
