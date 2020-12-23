@@ -259,3 +259,9 @@ class Repository:
         relatives = cls.__get_all_items(RelationshipCollection, user_id=user_id)
 
         return relatives
+
+    @classmethod
+    def get_user_role_by_email(cls, email):
+        role = UsersCollection.to_json(UsersCollection.get_one_obj({'email': email}))['role']
+
+        return role
