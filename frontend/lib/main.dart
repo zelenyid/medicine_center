@@ -28,7 +28,7 @@ void main() {
   initDependencies();
   runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.Analytics,
+      initialRoute: Routes.Login,
       // theme: appThemeData,
       defaultTransition: Transition.fade,
       getPages: [
