@@ -127,6 +127,11 @@ class Repository:
         return patient_profile
 
     @classmethod
+    def get_patient_by_email(cls, user_email):
+        patient_profile = cls.__get_user_profile(PatientsCollection, user_email)
+        return patient_profile
+
+    @classmethod
     def get_patient_by_dict(cls, filter_dict):
         patients = cls.__get_users_where(PatientsCollection, **filter_dict)
         
@@ -142,6 +147,11 @@ class Repository:
     def get_doctor_by_id(cls, user_id):
         doctor_profile = cls.__get_user_profile(DoctorsCollection, user_id)
 
+        return doctor_profile
+
+    @classmethod
+    def get_doctor_by_email(cls, user_email):
+        doctor_profile = cls.__get_user_profile(DoctorsCollection, user_email)
         return doctor_profile
 
     @classmethod
@@ -185,6 +195,12 @@ class Repository:
         history = cls.__get_obj_by_id(HistoriesCollection, history_id)
 
         return history
+
+    @classmethod
+    def get_all_histories(cls):
+        histories = cls.__get_all_items(HistoriesCollection)
+
+        return histories
 
     @classmethod
     def get_schedule(cls, doctor_id):

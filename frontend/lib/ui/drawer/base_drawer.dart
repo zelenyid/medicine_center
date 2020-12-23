@@ -11,22 +11,28 @@ class PatientDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: SafeArea(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-          ),
-          ListTile(
-            leading: Icon(Icons.medical_services_outlined),
-            title: Text('Hospitals'),
-            onTap: () => Get.toNamed(Routes.Hospitals),
-          ),
-        ],
+      child: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Profile'),
+            ),
+            ListTile(
+              leading: Icon(Icons.medical_services_outlined),
+              title: Text('Hospitals'),
+              onTap: () => Get.toNamed(Routes.Hospitals),
+            ),
+            ListTile(
+              leading: Icon(Icons.analytics),
+              title: Text('Analytics'),
+              onTap: () => Get.toNamed(Routes.Analytics),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -38,27 +44,33 @@ class DoctorsDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: SafeArea(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-          ),
-          ListTile(
-            leading: Icon(Icons.medical_services_outlined),
-            title: Text('Patients'),
-            onTap: () => Get.toNamed(Routes.SearchPatient),
-          ),
-          ListTile(
-            leading: Icon(Icons.medical_services_outlined),
-            title: Text('Register patient'),
-            onTap: () => Get.toNamed(Routes.Register),
-          ),
-        ],
+      child: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Profile'),
+            ),
+            ListTile(
+              leading: Icon(Icons.medical_services_outlined),
+              title: Text('Patients'),
+              onTap: () => Get.toNamed(Routes.SearchPatient),
+            ),
+            ListTile(
+              leading: Icon(Icons.medical_services_outlined),
+              title: Text('Register patient'),
+              onTap: () => Get.toNamed(Routes.Register),
+            ),
+            ListTile(
+              leading: Icon(Icons.analytics),
+              title: Text('Analytics'),
+              onTap: () => Get.toNamed(Routes.Analytics),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -73,11 +85,11 @@ class IconTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(right: 16),
       child: Container(
-          height: 45,
-          width: 45,
-          decoration: BoxDecoration(
-              color: backColor, borderRadius: BorderRadius.circular(15)),
-          child: iconButton),
+        height: 45,
+        width: 45,
+        decoration: BoxDecoration(
+            color: backColor, borderRadius: BorderRadius.circular(15)),
+        child: iconButton),
     );
   }
 }

@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:medecine_app/data/provider/api.dart';
 import 'package:medecine_app/data/repository/hospitals_repository.dart';
 import 'package:medecine_app/data/repository/patient_repository.dart';
 import 'package:medecine_app/data/repository/user_repository.dart';
+import 'package:medecine_app/data/repository/doctors_repository.dart';
+import 'package:medecine_app/data/repository/analytics_repository.dart';
 import 'package:medecine_app/modules/doctor/doctor_bindings.dart';
+import 'package:medecine_app/modules/doctor/doctor_screen.dart';
+import 'package:medecine_app/modules/patient/patient_binding.dart';
+import 'package:medecine_app/modules/patient/patient_screen.dart';
+import 'package:medecine_app/modules/hospitals/hospital_bindings.dart';
+import 'package:medecine_app/modules/hospitals/hospitals_screen.dart';
 import 'package:medecine_app/modules/login/login_binding.dart';
 import 'package:medecine_app/modules/login/login_screen.dart';
 import 'package:medecine_app/modules/patient_search/patient_search_binding.dart';
+import 'package:medecine_app/modules/patient_search/patient_search_screen.dart';
 import 'package:medecine_app/modules/register/register_binding.dart';
 import 'package:medecine_app/modules/register/register_screen.dart';
+import 'package:medecine_app/modules/analytics/analytics_binding.dart';
+import 'package:medecine_app/modules/analytics/analytics_screen.dart';
 import 'package:medecine_app/routes.dart';
 
-import 'data/provider/api.dart';
-import 'data/repository/doctors_repository.dart';
-import 'modules/doctor/doctor_screen.dart';
-import 'modules/hospitals/hospital_bindings.dart';
-import 'modules/hospitals/hospitals_screen.dart';
-import 'modules/patient/patient_binding.dart';
-import 'modules/patient/patient_screen.dart';
-import 'modules/patient_search/patient_search_screen.dart';
 
 void main() {
   initDependencies();
@@ -48,14 +52,23 @@ void main() {
           binding: DoctorsBinding(),
         ),
         GetPage(
-            name: Routes.Hospitals,
-            page: () => HospitalsScreen(),
-            binding: HospitalsBinding()),
+          name: Routes.Hospitals,
+          page: () => HospitalsScreen(),
+          binding: HospitalsBinding()
+        ),
+        GetPage(
+          name: Routes.Analytics,
+          page: () => AnalyticsScreen(),
+          binding: AnalyticsBinding()
+        ),
         GetPage(
             name: Routes.SearchPatient,
             page: () => PatientSaerchScreen(),
-            binding: PatientScreenSearchBinding()),
-      ]));
+            binding: PatientScreenSearchBinding()
+        ),
+      ]
+    )
+  );
 }
 
 initDependencies() {
@@ -63,6 +76,7 @@ initDependencies() {
   Get.put(UserRepository());
   Get.put(HospitalsRepository());
   Get.put(DoctorsRepository());
+  Get.put(AnalyticsRepository());
   Get.put(PatientRepository());
 }
 

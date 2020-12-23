@@ -23,8 +23,12 @@ class RegisterScheme(BaseModel):
     @validator('email')
     def is_valid_email(cls, v):
         if re.match(r"[a-zA-Z0-9]+@+[a-zA-Z0-9]+\.+[a-zA-Z]{2,5}", v):
-        	return v
-        print(f'unvalideed server with {v}')
+            patient_profile = Repository.get_patient_by_email(v)
+            if patient_profile:
+                print(f'such a patient as {v} already exists')
+                raise ValueError('Email exist')
+            return v
+        print(f'unvalided server with {v}')
         raise ValueError('Invalid email.')
 
     @validator('password1')

@@ -82,134 +82,36 @@ class RegisterFormState extends State<RegisterForm> {
   final birthdayController = TextEditingController();
 
   _getInputTypeByTitle(String title) {
-    switch (title) {
-      case 'Email':
-        {
-          return TextInputType.emailAddress;
-        }
-        break;
-      case 'Password1':
-        {
-          return TextInputType.visiblePassword;
-        }
-        break;
-      case 'Password2':
-        {
-          return TextInputType.visiblePassword;
-        }
-        break;
-      case 'Name':
-        {
-          return TextInputType.name;
-        }
-        break;
-      case 'Surname':
-        {
-          return TextInputType.name;
-        }
-        break;
-      case 'Patronymic':
-        {
-          return TextInputType.name;
-        }
-        break;
-      case 'Phone Number':
-        {
-          return TextInputType.phone;
-        }
-        break;
-      case 'Gender':
-        {
-          return TextInputType.text;
-        }
-        break;
-      case 'Profession':
-        {
-          return TextInputType.text;
-        }
-        break;
-      case 'Address':
-        {
-          return TextInputType.text;
-        }
-        break;
-      case 'Birthday':
-        {
-          return TextInputType.datetime;
-        }
-        break;
-      default:
-        {
-          print('Invalid title of widget - $title');
-          return null;
-        }
-        break;
+    switch(title) {
+      case 'Email': { return TextInputType.emailAddress; }
+      case 'Password1': { return TextInputType.visiblePassword; }
+      case 'Password2': { return TextInputType.visiblePassword; }
+      case 'Name': { return TextInputType.name; }
+      case 'Surname': { return TextInputType.name; }
+      case 'Patronymic': { return TextInputType.name; }
+      case 'Phone Number': { return TextInputType.phone; }
+      case 'Gender': { return TextInputType.text; }
+      case 'Profession': { return TextInputType.text; }
+      case 'Address': { return TextInputType.text; }
+      case 'Birthday': { return TextInputType.datetime; }
+      default: { print('Invalid title of widget - $title'); return null; }
     }
   }
 
   _getControllerByTitle(String title) {
-    switch (title) {
-      case 'Email':
-        {
-          return emailController;
-        }
-        break;
-      case 'Password1':
-        {
-          return password1Controller;
-        }
-        break;
-      case 'Password2':
-        {
-          return password2Controller;
-        }
-        break;
-      case 'Name':
-        {
-          return nameController;
-        }
-        break;
-      case 'Surname':
-        {
-          return surnameController;
-        }
-        break;
-      case 'Patronymic':
-        {
-          return patronymicController;
-        }
-        break;
-      case 'Phone Number':
-        {
-          return phoneController;
-        }
-        break;
-      case 'Gender':
-        {
-          return genderController;
-        }
-        break;
-      case 'Profession':
-        {
-          return professionController;
-        }
-        break;
-      case 'Address':
-        {
-          return addressController;
-        }
-        break;
-      case 'Birthday':
-        {
-          return birthdayController;
-        }
-        break;
-      default:
-        {
-          print('Invalid title of widget - $title');
-          return null;
-        }
-        break;
+    switch(title) {
+      case 'Email': { return emailController; }
+      case 'Password1': { return password1Controller; }
+      case 'Password2': { return password2Controller; }
+      case 'Name': { return nameController; }
+      case 'Surname': { return surnameController; }
+      case 'Patronymic': { return patronymicController; }
+      case 'Phone Number': { return phoneController; }
+      case 'Gender': { return genderController; }
+      case 'Profession': { return professionController; }
+      case 'Address': { return addressController; }
+      case 'Birthday': { return birthdayController; }
+      default: { print('Invalid title of widget - $title'); return null; }
     }
   }
 
@@ -562,7 +464,7 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 30.0),
           _buildBasicDateField('Birthday'),
           _buildRegisterBtn(),
-          // _buildLoginBtn(),
+          _buildLoginBtn(),
         ],
       ),
     );
