@@ -51,12 +51,13 @@ def register(user: RegisterScheme):
             except ValidationError as e:
                 return {"result": False, "msg": e}
         return {"result": True, 'user_id': str(registered_user['_id']),
-            'email': registered_user['email'], 'role': registered_user['role'],
-            'profession': registered_user['profession'], 'name': registered_user['name'],
-            'surname': registered_user['surname'], 'patronymic': registered_user['patronymic'],
-            'address': registered_user['address'], 'gender': registered_user['gender'],
-            'phone_number': registered_user['phone_number'], 'birthday': registered_user['birthday']}
+                'email': registered_user['email'], 'role': registered_user['role'],
+                'profession': registered_user['profession'], 'name': registered_user['name'],
+                'surname': registered_user['surname'], 'patronymic': registered_user['patronymic'],
+                'address': registered_user['address'], 'gender': registered_user['gender'],
+                'phone_number': registered_user['phone_number'], 'birthday': registered_user['birthday']}
     return {"result": False, "msg": "Invalid credentials"}
+
 
 @router.post('/login')
 def login(user: LoginScheme, Authorize: AuthJWT = Depends()):

@@ -22,4 +22,3 @@ async def refresh_tokens(Authorize: AuthJWT = Depends()):
         app.state.redis.save_tokens(Authorize.get_jti(access_token), Authorize.get_jti(refresh_token))
 
     return {"access_token": access_token, "refresh_token": refresh_token, "result": True}
-
