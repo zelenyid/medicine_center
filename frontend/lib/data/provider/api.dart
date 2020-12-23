@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:dio/dio.dart';
-import 'package:medecine_app/config.dart';
-import 'package:medecine_app/data/utils/exceptions.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:medecine_app/config.dart';
+import 'package:medecine_app/routes.dart';
+import 'package:medecine_app/data/utils/exceptions.dart';
+
 
 enum http_method { GET, POST, DOWNLOAD }
 
@@ -158,8 +160,7 @@ class ApiClient {
   }
 
   Future getAnalytics() async {
-    /// return all disease histories
-    Response response = await _dio.get('/analytics');
+    Response response = await _dio.get(Routes.Analytics);
     print('api.dart: analytics response - ${response}');
     if (response.statusCode == 200) {
       if (response.data["result"] == true) {
@@ -169,7 +170,7 @@ class ApiClient {
   }
 
   getAllHospitals() async {
-    return await _authenticatedRequest('/hospitals', method: http_method.GET);
+    return await _authenticatedRequest(Routes.Hospitals, method: http_method.GET);
   }
 
   getHospitalDoctors(hospitalID) async {

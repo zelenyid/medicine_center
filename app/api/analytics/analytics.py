@@ -24,23 +24,3 @@ async def get_analytics():
     }
 
     return {'data': data, 'result': bool(histories)}
-
-
-# @router.get('/analytics/doctor')
-# async def get_doctor_analytics():
-#     """
-#     Get data for hospital profile
-#     """
-#     doctors = Repository.get_all_doctors()
-
-#     return {'data': doctors, 'result': bool(doctors)}
-
-
-# @router.get('/analytics/hospital')
-# async def get_hospital_analytics():
-#     """
-#     Get data for hospital profile
-#     """
-#     hospitals = Repository.get_all_hospitals()
-
-#     return {'data': hospitals, 'result': bool(hospitals)}
