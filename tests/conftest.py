@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from app.data.database.database import MongoBase
 from mock import patch
 
-from app.main import app
+from run import app
 
 
 @pytest.fixture(scope="session")
@@ -32,6 +32,6 @@ def test_app():
 
 
 @pytest.fixture
-def test_client(test_app):
-    return TestClient(test_app)
+def test_client():
+    return TestClient(app)
 
