@@ -6,10 +6,11 @@ import 'package:medecine_app/data/models/doctor_model.dart';
 import 'package:medecine_app/data/models/patient_model.dart';
 import 'package:medecine_app/data/provider/api.dart';
 
+
 class UserRepository extends GetxService {
   ApiClient _apiClient = Get.find<ApiClient>();
   Rx userModel;
-  Rx patientModel;
+  Rx<PatientModel> patientModel;
 
   Future register(
       String email,
@@ -23,6 +24,7 @@ class UserRepository extends GetxService {
       String profession,
       String address,
       DateTime birthday) async {
+      print('user_repository.dart: before _apiClient');
     Response response = await _apiClient.register(
         email,
         password1,
@@ -36,8 +38,11 @@ class UserRepository extends GetxService {
         address,
         birthday);
     if (response != null) {
-      this.patientModel = PatientModel.fromJson(response.data).obs;
-      return patientModel;
+      var model = PatientModel.fromJson(response.data).obs;
+      if (model != null) {
+        this.patientModel = model;
+        return patientModel;
+      }
     }
   }
 

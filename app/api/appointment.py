@@ -18,7 +18,6 @@ async def add_appointment(appointment: AppointmentScheme, Authorize: AuthJWT = D
     """
     Authorize.jwt_required()
     status = Repository.add_appointment(appointment)
-    print(appointment)
     return status
 
 

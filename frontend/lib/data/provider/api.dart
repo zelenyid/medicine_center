@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:dio/dio.dart';
-import 'package:medecine_app/config.dart';
-import 'package:medecine_app/data/utils/exceptions.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:medecine_app/config.dart';
+import 'package:medecine_app/routes.dart';
+import 'package:medecine_app/data/utils/exceptions.dart';
+
 
 enum http_method { GET, POST, DOWNLOAD }
 
@@ -17,7 +19,7 @@ class ApiClient {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      connectTimeout: 4000,
+      connectTimeout: 10000,
       validateStatus: (status) {
         return status < 500;
       });
@@ -177,8 +179,18 @@ class ApiClient {
     return response;
   }
 
+  Future getAnalytics() async {
+    Response response = await _dio.get(Routes.Analytics);
+    print('api.dart: analytics response - ${response}');
+    if (response.statusCode == 200) {
+      if (response.data["result"] == true) {
+        return response;
+      }
+    }
+  }
+
   getAllHospitals() async {
-    return await _authenticatedRequest('/hospitals', method: http_method.GET);
+    return await _authenticatedRequest(Routes.Hospitals, method: http_method.GET);
   }
 
   getHospitalDoctors(hospitalID) async {

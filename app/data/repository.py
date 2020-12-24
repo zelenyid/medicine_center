@@ -127,10 +127,21 @@ class Repository:
         return patient_profile
 
     @classmethod
+    def get_patient_by_email(cls, user_email):
+        patient_profile = cls.__get_user_profile(PatientsCollection, user_email)
+        return patient_profile
+
+    @classmethod
     def get_patient_by_dict(cls, filter_dict):
         patients = cls.__get_users_where(PatientsCollection, **filter_dict)
         
         return patients
+
+    @classmethod
+    def get_patient_by_email(cls, user_email):
+        patients = cls.get_patient_by_dict(dict(email=user_email))
+
+        return None if not patients else patients[0]
 
     @classmethod
     def get_all_patients(cls):
@@ -145,10 +156,21 @@ class Repository:
         return doctor_profile
 
     @classmethod
+    def get_doctor_by_email(cls, user_email):
+        doctor_profile = cls.__get_user_profile(DoctorsCollection, user_email)
+        return doctor_profile
+
+    @classmethod
     def get_doctor_by_dict(cls, filter_dict):
         list_doctors = cls.__get_users_where(DoctorsCollection, **filter_dict)
         
         return list_doctors
+
+    @classmethod
+    def get_doctor_by_email(cls, user_email):
+        doctors = cls.get_doctor_by_dict(dict(email=user_email))
+
+        return None if doctors else doctors[0]
 
     @classmethod
     def get_all_doctors(cls):
@@ -185,6 +207,12 @@ class Repository:
         history = cls.__get_obj_by_id(HistoriesCollection, history_id)
 
         return history
+
+    @classmethod
+    def get_all_histories(cls):
+        histories = cls.__get_all_items(HistoriesCollection)
+
+        return histories
 
     @classmethod
     def get_schedule(cls, doctor_id):

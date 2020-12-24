@@ -21,9 +21,18 @@ def init():
 
 
 @router.post('/register')
-def register(user: RegisterScheme):
-    # TODO: Unique email
+def register(user: RegisterScheme, Authorize: AuthJWT = Depends()):
+    # TODO: Check on web
+    # Authorize.jwt_required()
+    # current_user = Authorize.get_jwt_subject()
+    # if current_user.roe == 'patient':
+    #     return {"result": False, "msg": "Login as doctor for ability to register a patients"}
+
     try:
+        patient_profile = Repository.get_patient_by_email(user.email)
+        if patient_profile:
+            return {"result": False, "msg": f"Patient with email like {user.email} already exists"}
+
         registered_user = Repository.add_user({
             "email": user.email,
             "password": UsersCollection.get_password_hash(user.password1),

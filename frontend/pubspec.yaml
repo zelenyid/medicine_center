@@ -34,6 +34,7 @@ dependencies:
   smooth_star_rating: ^1.1.1
   file_picker: ^2.0.1
   path_provider: ^1.6.24
+  graphic: ^0.3.0
   
 
 

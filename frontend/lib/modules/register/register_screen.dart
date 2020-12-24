@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
-import 'package:medecine_app/modules/login/login_screen.dart';
 
+import 'package:medecine_app/data/models/patient_model.dart';
+import 'package:medecine_app/modules/login/login_screen.dart';
 import 'package:medecine_app/routes.dart';
 import 'register_controller.dart';
+
 
 class RegisterScreen extends GetView<RegisterController> {
   @override
@@ -68,6 +70,14 @@ class RegisterForm extends StatefulWidget {
 
 class RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
+  final List<String> genderList = ['male', 'female', 'custom'];
+  String _gender;
+
+  @override
+  void initState() {
+    super.initState();
+    _gender = 'custom';
+  }
 
   final emailController = TextEditingController();
   final password1Controller = TextEditingController();
@@ -76,140 +86,42 @@ class RegisterFormState extends State<RegisterForm> {
   final surnameController = TextEditingController();
   final patronymicController = TextEditingController();
   final phoneController = TextEditingController();
-  final genderController = TextEditingController();
+  // final genderController = TextEditingController();
   final professionController = TextEditingController();
   final addressController = TextEditingController();
   final birthdayController = TextEditingController();
 
   _getInputTypeByTitle(String title) {
-    switch (title) {
-      case 'Email':
-        {
-          return TextInputType.emailAddress;
-        }
-        break;
-      case 'Password1':
-        {
-          return TextInputType.visiblePassword;
-        }
-        break;
-      case 'Password2':
-        {
-          return TextInputType.visiblePassword;
-        }
-        break;
-      case 'Name':
-        {
-          return TextInputType.name;
-        }
-        break;
-      case 'Surname':
-        {
-          return TextInputType.name;
-        }
-        break;
-      case 'Patronymic':
-        {
-          return TextInputType.name;
-        }
-        break;
-      case 'Phone Number':
-        {
-          return TextInputType.phone;
-        }
-        break;
-      case 'Gender':
-        {
-          return TextInputType.text;
-        }
-        break;
-      case 'Profession':
-        {
-          return TextInputType.text;
-        }
-        break;
-      case 'Address':
-        {
-          return TextInputType.text;
-        }
-        break;
-      case 'Birthday':
-        {
-          return TextInputType.datetime;
-        }
-        break;
-      default:
-        {
-          print('Invalid title of widget - $title');
-          return null;
-        }
-        break;
+    switch(title) {
+      case 'Email': { return TextInputType.emailAddress; }
+      case 'Password1': { return TextInputType.visiblePassword; }
+      case 'Password2': { return TextInputType.visiblePassword; }
+      case 'Name': { return TextInputType.name; }
+      case 'Surname': { return TextInputType.name; }
+      case 'Patronymic': { return TextInputType.name; }
+      case 'Phone Number': { return TextInputType.phone; }
+      // case 'Gender': { return TextInputType.text; }
+      case 'Profession': { return TextInputType.text; }
+      case 'Address': { return TextInputType.text; }
+      case 'Birthday': { return TextInputType.datetime; }
+      default: { print('Invalid title of widget - $title'); return null; }
     }
   }
 
   _getControllerByTitle(String title) {
-    switch (title) {
-      case 'Email':
-        {
-          return emailController;
-        }
-        break;
-      case 'Password1':
-        {
-          return password1Controller;
-        }
-        break;
-      case 'Password2':
-        {
-          return password2Controller;
-        }
-        break;
-      case 'Name':
-        {
-          return nameController;
-        }
-        break;
-      case 'Surname':
-        {
-          return surnameController;
-        }
-        break;
-      case 'Patronymic':
-        {
-          return patronymicController;
-        }
-        break;
-      case 'Phone Number':
-        {
-          return phoneController;
-        }
-        break;
-      case 'Gender':
-        {
-          return genderController;
-        }
-        break;
-      case 'Profession':
-        {
-          return professionController;
-        }
-        break;
-      case 'Address':
-        {
-          return addressController;
-        }
-        break;
-      case 'Birthday':
-        {
-          return birthdayController;
-        }
-        break;
-      default:
-        {
-          print('Invalid title of widget - $title');
-          return null;
-        }
-        break;
+    switch(title) {
+      case 'Email': { return emailController; }
+      case 'Password1': { return password1Controller; }
+      case 'Password2': { return password2Controller; }
+      case 'Name': { return nameController; }
+      case 'Surname': { return surnameController; }
+      case 'Patronymic': { return patronymicController; }
+      case 'Phone Number': { return phoneController; }
+      // case 'Gender': { return genderController; }
+      case 'Profession': { return professionController; }
+      case 'Address': { return addressController; }
+      case 'Birthday': { return birthdayController; }
+      default: { print('Invalid title of widget - $title'); return null; }
     }
   }
 
@@ -243,7 +155,7 @@ class RegisterFormState extends State<RegisterForm> {
           );
           if (!regExp.hasMatch(value)) {
             print(regExp);
-            return 'Password must consist of uppercase, lowercase letter, numerical with $minLen-$maxLen chars length.';
+            return 'Password must consist of uppercase, lowercase, numerical ($minLen-$maxLen chars)';
           }
           return null;
         }
@@ -276,7 +188,7 @@ class RegisterFormState extends State<RegisterForm> {
             );
             if (!regExp.hasMatch(value)) {
               print(regExp);
-              return "Phone number begins with '+' and the rest ($minLen-$maxLen chars) consists of numbers.";
+              return "Phone number begins with '+' and the rest are numbers ($minLen-$maxLen chars)";
             }
             return null;
           } catch (e) {
@@ -286,7 +198,6 @@ class RegisterFormState extends State<RegisterForm> {
         break;
       case 'Gender':
         {
-          List<String> genderList = ['male', 'female', 'custom'];
           if (!genderList.contains(value)) {
             return "Choose gender between $genderList";
           }
@@ -436,6 +347,45 @@ class RegisterFormState extends State<RegisterForm> {
     ]);
   }
 
+  Widget _buildGenderChoser() {
+    String _title = 'Gender';
+    return  Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          _title,
+          style: kLabelStyle,
+        ),
+        DropdownButton<String>(
+          value: _gender,
+          icon: Icon(
+            _getIconByTitle(_title),
+            color: Colors.white,
+          ),
+          onChanged: (String chosenGender) {
+            setState(() {
+              _gender = chosenGender;
+            });
+          },
+          items: genderList
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: 'OpenSans',
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
   Widget _buildRegisterBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -502,7 +452,7 @@ class RegisterFormState extends State<RegisterForm> {
   Future<void> _register() async {
     // print('email ${emailController.text} - ${emailController}, pass1 ${password1Controller.text}, pass2 ${password2Controller.text}, name ${nameController.text}, surname ${surnameController.text}, patro ${patronymicController.text}, phone ${phoneController.text}, gender ${genderController.text}');
     // print('birthdayController ${birthdayController.text}');
-    Rx patientModel = await widget.controller.register(
+    var patientModel = await widget.controller.register(
         emailController.text,
         password1Controller.text,
         password2Controller.text,
@@ -510,12 +460,12 @@ class RegisterFormState extends State<RegisterForm> {
         surnameController.text,
         patronymicController.text,
         phoneController.text,
-        genderController.text,
+        _gender,
         professionController.text,
         addressController.text,
         DateFormat("yyyy-MM-dd").parse(birthdayController.text));
     if (patientModel != null) {
-      Navigator.pushNamed(context, Routes.Login);
+      Navigator.pushNamed(context, Routes.Register);
       Get.snackbar('Success', 'Patient account has been created!');
     } else {
       print('Something went wrong on registration');
@@ -554,15 +504,16 @@ class RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 30.0),
           _buildTextFormField('Phone Number'),
           SizedBox(height: 30.0),
-          _buildTextFormField('Gender'),
-          SizedBox(height: 30.0),
           _buildTextFormField('Profession'),
           SizedBox(height: 30.0),
           _buildTextFormField('Address'),
           SizedBox(height: 30.0),
+          _buildGenderChoser(),
+          SizedBox(height: 30.0),
           _buildBasicDateField('Birthday'),
           _buildRegisterBtn(),
-          _buildLoginBtn(),
+          /// only doctor can register patients
+          // _buildLoginBtn(),
         ],
       ),
     );
