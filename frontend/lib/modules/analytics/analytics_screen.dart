@@ -19,7 +19,7 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: BaseAppBar(),
+      appBar: BaseAppBar(),
       // endDrawer: BaseDrawer(),
       body: SingleChildScrollView(
         child: Center(
@@ -113,25 +113,27 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
                   'count': count,
                 })
             );
-            return graphic.Chart(
-              data: statusesData,
-              scales: {
-                'status': graphic.CatScale(
-                  accessor: (map) => map['status'] as String,
-                ),
-                'count': graphic.LinearScale(
-                  accessor: (map) => map['count'] as num,
-                  nice: true,
-                )
-              },
-              coord: graphic.PolarCoord(transposed: true, innerRadius: 0.5),
-              geoms: [graphic.IntervalGeom(
-                position: graphic.PositionAttr(field: 'status*count'),
-                color: graphic.ColorAttr(field: 'status'),
-              )],
-              padding: EdgeInsets.zero,
-              margin: EdgeInsets.all(20),
-            );
+            return statusesData.isEmpty
+              ? _noDataText('status')
+              : graphic.Chart(
+                  data: statusesData,
+                  scales: {
+                    'status': graphic.CatScale(
+                      accessor: (map) => map['status'] as String,
+                    ),
+                    'count': graphic.LinearScale(
+                      accessor: (map) => map['count'] as num,
+                      nice: true,
+                    )
+                  },
+                  coord: graphic.PolarCoord(transposed: true, innerRadius: 0.5),
+                  geoms: [graphic.IntervalGeom(
+                    position: graphic.PositionAttr(field: 'status*count'),
+                    color: graphic.ColorAttr(field: 'status'),
+                  )],
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.all(20),
+                );
           }),
         ),
 
@@ -183,6 +185,9 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
               controller.analyticsModel?.value?.statusCount
             )
           ),
+        ),
+        SizedBox(
+          height: 16,
         ),
       ],
     );

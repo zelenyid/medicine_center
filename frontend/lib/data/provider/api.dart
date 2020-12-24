@@ -19,7 +19,7 @@ class ApiClient {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      connectTimeout: 4000,
+      connectTimeout: 10000,
       validateStatus: (status) {
         return status < 500;
       });

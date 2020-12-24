@@ -138,6 +138,12 @@ class Repository:
         return patients
 
     @classmethod
+    def get_patient_by_email(cls, user_email):
+        patients = cls.get_patient_by_dict(dict(email=user_email))
+
+        return None if not patients else patients[0]
+
+    @classmethod
     def get_all_patients(cls):
         list_patients = cls.__get_all_users(PatientsCollection)
 
@@ -159,6 +165,12 @@ class Repository:
         list_doctors = cls.__get_users_where(DoctorsCollection, **filter_dict)
         
         return list_doctors
+
+    @classmethod
+    def get_doctor_by_email(cls, user_email):
+        doctors = cls.get_doctor_by_dict(dict(email=user_email))
+
+        return None if doctors else doctors[0]
 
     @classmethod
     def get_all_doctors(cls):

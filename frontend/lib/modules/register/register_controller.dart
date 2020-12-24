@@ -9,7 +9,7 @@ class RegisterController extends GetxController {
   UserRepository _userRepository = Get.find<UserRepository>();
 
   final String title = 'Register';
-  Rx get patientModel => _userRepository.patientModel;
+  get patientModel => _userRepository.patientModel;
 
   @override
   void onInit() {
@@ -21,7 +21,7 @@ class RegisterController extends GetxController {
                   String profession, String address, DateTime birthday) async {
     try {
       print('DateTime birthday: ${birthday}');
-      PatientModel patientModel = await _userRepository.register(
+      Rx<PatientModel> patientModel = await _userRepository.register(
                   email, password1, password2, name,
                   surname, patronymic, phone_number,
                   gender, profession, address, birthday);
