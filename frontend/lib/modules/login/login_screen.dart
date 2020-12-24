@@ -248,6 +248,7 @@ class LoginScreen extends GetView<LoginController> {
                       _buildPasswordTF(),
                       _buildForgotPasswordBtn(),
                       _buildLoginBtn(),
+                      /// only doctor can register patients
                       // _buildRegisterBtn(context),
                     ],
                   ),
