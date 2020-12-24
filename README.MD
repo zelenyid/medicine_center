@@ -42,6 +42,15 @@
 ## Run server:
    * pipenv run uvicorn run:app
    * pipenv run uvicorn run:chat 
+   
+## Test users
+  Doctor:
+    email: efippawonn-3466@yopmail.com
+    password: 123456
+  Patient:
+    email: ofabiqika-4056@yopmail.com
+    password: 123456
+    
 ## DEBUG:
    * http://127.0.0.1:8000/docs
 
