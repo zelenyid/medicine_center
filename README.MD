@@ -44,13 +44,14 @@
    * pipenv run uvicorn run:chat 
    
 ## Test users
+<pre>
   Doctor:
     email: efippawonn-3466@yopmail.com
     password: 123456
   Patient:
     email: ofabiqika-4056@yopmail.com
     password: 123456
-    
+</pre>    
 ## DEBUG:
    * http://127.0.0.1:8000/docs
 
