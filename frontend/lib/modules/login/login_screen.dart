@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medecine_app/data/models/doctor_model.dart';
-import 'package:medecine_app/data/models/patient_model.dart';
 
+import 'package:medecine_app/data/models/patient_model.dart';
 import 'package:medecine_app/routes.dart';
 import 'login_controller.dart';
 
